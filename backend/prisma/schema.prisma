@@ -6,14 +6,13 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
-
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
@@ -27,7 +26,7 @@ model User {
 
 model Exercise {
   id            String        @id @default(uuid()) // Primary key
-  name          String                             // e.g. "Push Up"
+  name          String          @unique                   // e.g. "Push Up"
   description   String?                            // Optional details
   muscleGroup   String?                            // e.g. "Chest"
   createdAt     DateTime      @default(now())
