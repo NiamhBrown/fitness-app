@@ -18,7 +18,7 @@ model User {
   email     String   @unique
   name      String?
     createdAt     DateTime      @default(now())     
-  updatedAt     DateTime      @updatedAt          // Auto-update on change
+  updatedAt     DateTime      @updatedAt          
 
   // Relations
   exerciseLogs  ExerciseLog[]                     // One user -> many logs
@@ -26,9 +26,9 @@ model User {
 
 model Exercise {
   id            String        @id @default(uuid()) // Primary key
-  name          String          @unique                   // e.g. "Push Up"
-  description   String?                            // Optional details
-  muscleGroup   String?                            // e.g. "Chest"
+  name          String          @unique                   
+  description   String?                            
+  muscleGroup   String?                            
   createdAt     DateTime      @default(now())
 
   // Relations
