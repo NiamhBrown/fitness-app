@@ -1,45 +1,32 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { ExerciseListItem } from "../components/exercise-library/ExerciseListItem";
 import type { Exercise } from "../types/types";
 
 export const ExerciseLibrary = () => {
-  const [exercises, setExercises] = useState<Exercise[] | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<boolean | null>(null);
+  const {
+    data: exercises,
+    isLoading,
+    isError,
+  } = useQuery<Exercise[]>({
+    queryKey: ["exercises"],
+    queryFn: async () => {
+      const res = await axios.get(`http://localhost:3000/exercises`); // import base url from somewhere instead
+      return res.data.data;
+    },
+  });
+  console.log("DATA😛", exercises);
+  if (isLoading) return <p>Loading exercises...</p>;
+  if (isError) return <p>Error loading exercises.</p>;
 
-  useEffect(() => {
-    const fetchExercises = async () => {
-      try {
-        const res = await fetch(`http://localhost:3000/exercises`); // store as vite var?
-        const data = await res.json();
-        setExercises(data.data);
-      } catch (err) {
-        setError(true);
-        console.error("❌ Error fetching exercises:", err);
-        // setExercises([]); do i need this?
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchExercises();
-  }, []);
-
-  if (isLoading) {
-    return <p>Loading exercises...</p>;
-  }
-  if (error) {
-    return <p>Something went wrong while fetching. please try again later </p>;
-  }
-  if (!exercises?.length) {
-    return <p>No results</p>;
-  }
   return (
     <div>
       <h1>Exercise Library</h1>
-      {exercises.map((ex) => (
-        <ExerciseListItem key={ex.id} exercise={ex} />
-      ))}
+      {exercises?.length ? (
+        exercises.map((ex) => <ExerciseListItem key={ex.id} exercise={ex} />)
+      ) : (
+        <p>No exercises found</p>
+      )}
     </div>
   );
 };
