@@ -5,7 +5,7 @@ import {
   flexRender,
   createColumnHelper,
 } from "@tanstack/react-table";
-import type { ExerciseHistoryTableProps, SetEntry } from "../../types/types";
+import type { ExerciseHistoryTableProps, ExerciseLog } from "../../types/types";
 
 const ExerciseHistoryTable: React.FC<ExerciseHistoryTableProps> = ({
   logs,
@@ -13,7 +13,7 @@ const ExerciseHistoryTable: React.FC<ExerciseHistoryTableProps> = ({
   // Group sets by date for display
   const groupedLogs = Object.values(
     logs.reduce(
-      (acc: Record<string, { date: string; sets: SetEntry[] }>, set) => {
+      (acc: Record<string, { date: string; sets: ExerciseLog[] }>, set) => {
         if (!acc[set.date]) acc[set.date] = { date: set.date, sets: [] };
         acc[set.date].sets.push(set);
         return acc;

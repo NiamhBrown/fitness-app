@@ -1,18 +1,20 @@
-// one row per set
-export type SetEntry = {
+export type ExerciseLog = {
   id: string;
-  exerciseId: string; // links to Exercise.id
-  date: string; // ISO string
+  userId: string;
+  exerciseId: string;
+  date: string;
   setNumber: number;
   reps: number;
   weight: number;
 };
-
 export type Exercise = {
   id: string;
   name: string;
+  description?: string;
+  muscleGroup?: string;
+  createdAt?: string; // or date?
 };
 
 export type ExerciseHistoryTableProps = {
-  logs: SetEntry[]; // array of sets filtered for a particular exercise
+  logs: ExerciseLog[]; // array of sets filtered for a particular exercise
 };
