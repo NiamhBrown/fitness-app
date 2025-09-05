@@ -7,7 +7,8 @@ const prisma = new PrismaClient();
 const router = Router();
 
 router.get("/", exerciseController.getAllExercises);
-
 router.get("/:id/history", exerciseController.getExerciseLogs);
+router.post("/:id/history", exerciseController.addExerciseLog);
+router.put("/history", exerciseController.updateExerciseLog);
 
 export default router;

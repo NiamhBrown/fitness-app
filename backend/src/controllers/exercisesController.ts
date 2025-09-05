@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import { exercisesService } from "../services/exercisesService";
-import { ApiResponse } from "../types/types";
+import {
+  ApiResponse,
+  NewExerciseLogInput,
+  UpdateExerciseLogInput,
+} from "../types/types";
 import { Exercise, ExerciseLog } from "@prisma/client";
 
 export const exerciseController = {
@@ -36,7 +40,7 @@ export const exerciseController = {
         .json({ status: 400, message: "Valid exerciseId is required" });
     }
     try {
-      const exerciseLogs = await exercisesService.getExerciseLog(id);
+      const exerciseLogs = await exercisesService.getExerciseLogs(id);
       res.json({
         status: 200,
         message: "Exercise logs fetched successfully",
@@ -47,6 +51,69 @@ export const exerciseController = {
       res
         .status(500)
         .json({ status: 500, message: "Failed to fetch exercise logs" });
+    }
+  },
+  addExerciseLog: async (
+    req: Request<{ id: string }, {}, NewExerciseLogInput[]>,
+    res: Response
+  ) => {
+    console.log("🔥 Received POST request to /exercises/:id/history");
+    const { id } = req.params;
+    const data = req.body;
+
+    if (!id) {
+      return res
+        .status(400)
+        .json({ status: 400, message: "Valid exerciseId is required" });
+    }
+
+    if (!Array.isArray(data) || data.length === 0) {
+      return res.status(400).json({
+        status: 400,
+        message: "Request body must contain at least one log",
+      });
+    }
+
+    try {
+      const exerciseLogs = await exercisesService.addExerciseLog(id, data);
+      res.json({
+        status: 200,
+        message: "Exercise logs added successfully",
+        data: exerciseLogs,
+      });
+    } catch (err) {
+      console.error("❌ Error adding exercise log:", err);
+      res
+        .status(500)
+        .json({ status: 500, message: "Failed to add exercise log" });
+    }
+  },
+  updateExerciseLog: async (
+    req: Request<UpdateExerciseLogInput[]>,
+    res: Response
+  ) => {
+    console.log("🔥 Received PUT request to /exercises/:id/history");
+    const data = req.body;
+
+    if (!Array.isArray(data) || data.length === 0) {
+      return res.status(400).json({
+        status: 400,
+        message: "Request body must contain at least one log to update",
+      });
+    }
+
+    try {
+      const exerciseLogs = await exercisesService.updateExerciseLog(data);
+      res.json({
+        status: 200,
+        message: "Exercise logs updated successfully",
+        data: exerciseLogs,
+      });
+    } catch (err) {
+      console.error("❌ Error updating exercise log:", err);
+      res
+        .status(500)
+        .json({ status: 500, message: "Failed to update exercise log" });
     }
   },
 };
