@@ -36,7 +36,7 @@ export const exerciseController = {
         .json({ status: 400, message: "Valid exerciseId is required" });
     }
     try {
-      const exerciseLogs = await exercisesService.getExerciseLog(id);
+      const exerciseLogs = await exercisesService.getExerciseLogs(id);
       res.json({
         status: 200,
         message: "Exercise logs fetched successfully",
@@ -47,6 +47,41 @@ export const exerciseController = {
       res
         .status(500)
         .json({ status: 500, message: "Failed to fetch exercise logs" });
+    }
+  },
+  addExerciseLog: async (
+    req: Request<{ id: string }, {}, ExerciseLog[]>,
+    res: Response
+  ) => {
+    console.log("🔥 Received POST request to /exercises/:id/history");
+    const { id } = req.params;
+    const data = req.body;
+
+    if (!id) {
+      return res
+        .status(400)
+        .json({ status: 400, message: "Valid exerciseId is required" });
+    }
+
+    if (!Array.isArray(data) || data.length === 0) {
+      return res.status(400).json({
+        status: 400,
+        message: "Request body must contain at least one log",
+      });
+    }
+
+    try {
+      const exerciseLogs = await exercisesService.addExerciseLog(id, data);
+      res.json({
+        status: 200,
+        message: "Exercise logs added successfully",
+        data: exerciseLogs,
+      });
+    } catch (err) {
+      console.error("❌ Error adding exercise log:", err);
+      res
+        .status(500)
+        .json({ status: 500, message: "Failed to add exercise log" });
     }
   },
 };

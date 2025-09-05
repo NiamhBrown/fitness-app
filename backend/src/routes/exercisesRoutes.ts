@@ -10,4 +10,6 @@ router.get("/", exerciseController.getAllExercises);
 
 router.get("/:id/history", exerciseController.getExerciseLogs);
 
+router.post("/:id/history", exerciseController.addExerciseLog);
+
 export default router;
