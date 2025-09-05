@@ -1,13 +1,32 @@
-import { exercises } from "../assets/dummyData";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { ExerciseListItem } from "../components/exercise-library/ExerciseListItem";
+import type { Exercise } from "../types/types";
 
 export const ExerciseLibrary = () => {
+  const {
+    data: exercises,
+    isLoading,
+    isError,
+  } = useQuery<Exercise[]>({
+    queryKey: ["exercises"],
+    queryFn: async () => {
+      const res = await axios.get(`http://localhost:3000/exercises`); // import base url from somewhere instead
+      return res.data.data;
+    },
+  });
+  console.log("DATA😛", exercises);
+  if (isLoading) return <p>Loading exercises...</p>;
+  if (isError) return <p>Error loading exercises.</p>;
+
   return (
     <div>
       <h1>Exercise Library</h1>
-      {exercises.map((ex) => (
-        <ExerciseListItem key={ex.id} exercise={ex} />
-      ))}
+      {exercises?.length ? (
+        exercises.map((ex) => <ExerciseListItem key={ex.id} exercise={ex} />)
+      ) : (
+        <p>No exercises found</p>
+      )}
     </div>
   );
 };
