@@ -4,8 +4,7 @@ import axios from "axios";
 import type { Exercise, ExerciseLog } from "../types/types";
 import ExerciseHistoryTable from "../components/exercise-library/ExerciseHistoryTable";
 
-// change function to match other syntax throughout
-export default function ExerciseDetail() {
+export const ExerciseDetail = () => {
   const { id } = useParams<{ id: string }>();
   const queryClient = useQueryClient();
 
@@ -57,4 +56,4 @@ export default function ExerciseDetail() {
       )}
     </div>
   );
-}
+};
