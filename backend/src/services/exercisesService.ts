@@ -1,4 +1,5 @@
 import { ExerciseLog, PrismaClient } from "@prisma/client";
+import { NewExerciseLogInput, UpdateExerciseLogInput } from "../types/types";
 
 const prisma = new PrismaClient();
 export const exercisesService = {
@@ -15,7 +16,7 @@ export const exercisesService = {
     });
     return logs;
   },
-  addExerciseLog: async (exerciseId: string, logs: ExerciseLog[]) => {
+  addExerciseLog: async (exerciseId: string, logs: NewExerciseLogInput[]) => {
     // Transform logs before inserting
     const formattedLogs = logs.map((log, index) => ({
       userId: "1", // Hardcoded until auth is ready
@@ -31,5 +32,24 @@ export const exercisesService = {
     });
 
     return result;
+  },
+  updateExerciseLog: async (logs: UpdateExerciseLogInput[]) => {
+    const formattedLogs = logs.map((log) => {
+      const data: Partial<{ reps: number; weight: number }> = {};
+
+      if (log.reps !== undefined) data.reps = log.reps;
+      if (log.weight !== undefined) data.weight = log.weight;
+
+      // Return a prisma update promise for this log, but doesnt execute yet
+      return prisma.exerciseLog.update({
+        where: { id: log.id },
+        data,
+      });
+    });
+
+    // Execute all updates in parallel, faster than updating one by one
+    const result = await Promise.all(formattedLogs);
+
+    return result; // Returns the array of updated logs
   },
 };

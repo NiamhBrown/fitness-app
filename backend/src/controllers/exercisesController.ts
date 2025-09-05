@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import { exercisesService } from "../services/exercisesService";
-import { ApiResponse } from "../types/types";
+import {
+  ApiResponse,
+  NewExerciseLogInput,
+  UpdateExerciseLogInput,
+} from "../types/types";
 import { Exercise, ExerciseLog } from "@prisma/client";
 
 export const exerciseController = {
@@ -50,7 +54,7 @@ export const exerciseController = {
     }
   },
   addExerciseLog: async (
-    req: Request<{ id: string }, {}, ExerciseLog[]>,
+    req: Request<{ id: string }, {}, NewExerciseLogInput[]>,
     res: Response
   ) => {
     console.log("🔥 Received POST request to /exercises/:id/history");
@@ -82,6 +86,34 @@ export const exerciseController = {
       res
         .status(500)
         .json({ status: 500, message: "Failed to add exercise log" });
+    }
+  },
+  updateExerciseLog: async (
+    req: Request<UpdateExerciseLogInput[]>,
+    res: Response
+  ) => {
+    console.log("🔥 Received PUT request to /exercises/:id/history");
+    const data = req.body;
+
+    if (!Array.isArray(data) || data.length === 0) {
+      return res.status(400).json({
+        status: 400,
+        message: "Request body must contain at least one log to update",
+      });
+    }
+
+    try {
+      const exerciseLogs = await exercisesService.updateExerciseLog(data);
+      res.json({
+        status: 200,
+        message: "Exercise logs updated successfully",
+        data: exerciseLogs,
+      });
+    } catch (err) {
+      console.error("❌ Error updating exercise log:", err);
+      res
+        .status(500)
+        .json({ status: 500, message: "Failed to update exercise log" });
     }
   },
 };

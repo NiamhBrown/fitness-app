@@ -21,6 +21,12 @@ export type NewExerciseLogInput = {
   date?: string; // optional, defaults to today
 };
 
+export type UpdateExerciseLogInput = {
+  id: string; // id of specific log to update
+  reps?: number;
+  weight?: number;
+};
+
 // overkill?
 export type ExerciseHistoryTableProps = {
   logs: ExerciseLog[]; // array of sets filtered for a particular exercise
