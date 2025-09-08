@@ -92,7 +92,7 @@ export const exerciseController = {
     req: Request<UpdateExerciseLogInput[]>,
     res: Response
   ) => {
-    console.log("🔥 Received PUT request to /exercises/:id/history");
+    console.log("🔥 Received PUT request to /exercises/history");
     const data = req.body;
 
     if (!Array.isArray(data) || data.length === 0) {

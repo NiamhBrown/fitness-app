@@ -1,5 +1,6 @@
 import { ExerciseLog, PrismaClient } from "@prisma/client";
 import { NewExerciseLogInput, UpdateExerciseLogInput } from "../types/types";
+import { personalBestService } from "./personalBestService";
 
 const prisma = new PrismaClient();
 export const exercisesService = {
@@ -30,6 +31,9 @@ export const exercisesService = {
     const result = await prisma.exerciseLog.createMany({
       data: formattedLogs,
     });
+    for (const log of formattedLogs) {
+      await personalBestService.checkAndUpdatePb(log);
+    }
 
     return result;
   },
@@ -49,6 +53,9 @@ export const exercisesService = {
 
     // Execute all updates in parallel, faster than updating one by one
     const result = await Promise.all(formattedLogs);
+    for (const log of result) {
+      await personalBestService.checkAndUpdatePb(log);
+    }
 
     return result; // Returns the array of updated logs
   },
