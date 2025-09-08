@@ -22,6 +22,7 @@ model User {
 
   // Relations
   exerciseLogs  ExerciseLog[]                     // One user -> many logs
+  personalBest  PersonalBest[]
   }
 
 model Exercise {
@@ -33,6 +34,7 @@ model Exercise {
 
   // Relations
   exerciseLogs  ExerciseLog[]                      // One exercise -> many logs
+  personalBest  PersonalBest[]
 }
 
 model ExerciseLog {
@@ -46,4 +48,23 @@ model ExerciseLog {
 
   user       User      @relation(fields: [userId], references: [id])
   exercise   Exercise  @relation(fields: [exerciseId], references: [id])
+
+  //relations 
+personalBest PersonalBest[] 
+}
+
+model PersonalBest {
+  id         String   @id @default(uuid())
+  userId     String 
+  exerciseId String 
+  reps       Int
+  weight     Float
+  date       DateTime
+  sourceLogId  String?     @unique  // links back to the exact ExerciseLog row
+
+  user       User      @relation(fields: [userId], references: [id])
+  exercise   Exercise  @relation(fields: [exerciseId], references: [id])
+  sourceLog  ExerciseLog? @relation(fields: [sourceLogId], references: [id])
+
+  @@unique([userId, exerciseId]) // Ensures one PB per user + exercise
 }

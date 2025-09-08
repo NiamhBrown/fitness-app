@@ -6,6 +6,7 @@ const main = async () => {
   console.log("🌱 Starting database seeding...");
 
   console.log("🧹 Cleaning existing data...");
+  await prisma.personalBest.deleteMany();
   await prisma.exerciseLog.deleteMany();
   await prisma.exercise.deleteMany();
   await prisma.user.deleteMany();
@@ -90,6 +91,26 @@ const main = async () => {
     },
   });
 
+  // Seed PBs
+  console.log("🏆 Seeding PBs...");
+  await prisma.personalBest.createMany({
+    data: [
+      {
+        userId: "1",
+        exerciseId: benchPress.id,
+        date: new Date("2025-08-22"),
+        reps: 8,
+        weight: 60,
+      },
+      {
+        userId: "2",
+        exerciseId: benchPress.id,
+        date: new Date("2025-08-22"),
+        reps: 8,
+        weight: 60,
+      },
+    ],
+  });
   // Seed exercise logs
   console.log("📊 Seeding exercise logs...");
   await prisma.exerciseLog.createMany({
