@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
 import exercisesRouter from "./routes/exercisesRoutes.js";
+import { authenticateToken } from "./middleware/auth.js";
 
 const app = express();
 
@@ -14,6 +15,6 @@ app.get("/", (req, res) => {
   res.send("Hello from Express + TypeScript!");
 });
 
-app.use("/exercises", exercisesRouter);
+app.use("/exercises", authenticateToken, exercisesRouter);
 
 export default app;

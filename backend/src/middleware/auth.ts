@@ -22,16 +22,27 @@ export const authenticateToken = async (req, res, next) => {
 
     // Verify token with Supabase Auth server
     const {
-      data: { user },
+      data: { user: authUser },
       error,
     } = await supabase.auth.getUser(token);
 
-    if (error || !user) {
+    if (error || !authUser) {
       return res.status(403).json({ error: "Invalid or expired token" });
     }
+    // check local user table if already exists
+    let appUser = await prisma.user.findUnique({ where: { id: authUser.id } });
 
+    if (!appUser) {
+      appUser = await prisma.user.create({
+        data: {
+          id: authUser.id, // same ID as auth table
+          email: authUser.email, // optional, nice for debugging
+          createdAt: new Date(),
+        },
+      });
+    }
     // Attach user to request object
-    req.user = user;
+    req.user = appUser;
     next();
   } catch (error) {
     console.error("Auth middleware error:", error);
