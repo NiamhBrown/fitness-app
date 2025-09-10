@@ -13,6 +13,9 @@ export const exerciseController = {
     res: Response<ApiResponse<Exercise[]>>
   ) => {
     console.log("🔥 Received GET request to /exercises");
+    // trying to see if the user is being added correctly to this req
+    console.log("❤️‍🔥❤️‍🔥❤️‍🔥REQ", req?.user?.id);
+
     try {
       const exercises = await exercisesService.getAllExercises();
       res.json({

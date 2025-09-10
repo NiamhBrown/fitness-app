@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { ExerciseListItem } from "../components/exercise-library/ExerciseListItem";
 import type { Exercise } from "../types/types";
+import { supabase } from "../supabaseClient";
 
 export const ExerciseLibrary = () => {
   const {
@@ -11,7 +12,22 @@ export const ExerciseLibrary = () => {
   } = useQuery<Exercise[]>({
     queryKey: ["exercises"],
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:3000/exercises`); // import base url from somewhere instead
+      // 1. Get the current session
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (!session) {
+        throw new Error("No session found");
+      }
+
+      // 2. Attach token to request
+      const res = await axios.get(`http://localhost:3000/exercises`, {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+
       return res.data.data;
     },
   });
