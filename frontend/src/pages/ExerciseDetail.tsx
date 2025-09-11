@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import type { Exercise, ExerciseLog } from "../types/types";
 import ExerciseHistoryTable from "../components/exercise-library/ExerciseHistoryTable";
+import { supabase } from "../supabaseClient";
 
 export const ExerciseDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -12,17 +13,25 @@ export const ExerciseDetail = () => {
   const cachedExercises = queryClient.getQueryData<Exercise[]>(["exercises"]);
   const exerciseFromCache = cachedExercises?.find((ex) => ex.id === id);
 
-  // Only fetch if not in cache
   const { data: exercise } = useQuery<Exercise>({
     queryKey: ["exercise", id],
     queryFn: async () => {
-      const res = await axios.get(`/api/exercises/${id}`);
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (!session) {
+        throw new Error("No session found");
+      }
+      const res = await axios.get(`http://localhost:3000/exercises/${id}`, {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
       return res.data.data;
     },
     enabled: !exerciseFromCache, // fetch only if cache didn't have it
     initialData: exerciseFromCache, // seed initial data from cache
   });
-
   // Fetch logs as usual
   const {
     data: exerciseLogs,
@@ -31,8 +40,19 @@ export const ExerciseDetail = () => {
   } = useQuery<ExerciseLog[]>({
     queryKey: ["exerciseLogs", id],
     queryFn: async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (!session) {
+        throw new Error("No session found");
+      }
       const res = await axios.get(
-        `http://localhost:3000/exercises/${id}/history`
+        `http://localhost:3000/exercises/${id}/history`,
+        {
+          headers: {
+            Authorization: `Bearer ${session.access_token}`,
+          },
+        }
       );
       return res.data.data;
     },
@@ -41,7 +61,7 @@ export const ExerciseDetail = () => {
 
   if (isLoading) return <p>Loading exercise history...</p>;
   if (isError) return <p>Error loading logs.</p>;
-  console.log("🎂🎂EXERCISE LOGSSSS🎂:", exerciseLogs);
+
   return (
     <div>
       <Link to={`/`}>

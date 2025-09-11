@@ -10,17 +10,29 @@ export const exercisesService = {
     });
     return exercises;
   },
-  getExerciseLogs: async (id) => {
+  getExercise: async (id) => {
+    const exercise = await prisma.exercise.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    return exercise;
+  },
+  getExerciseLogs: async (id, userId) => {
     const logs = await prisma.exerciseLog.findMany({
-      where: { exerciseId: id },
+      where: { exerciseId: id, userId: userId },
       orderBy: { date: "asc" },
     });
     return logs;
   },
-  addExerciseLog: async (exerciseId: string, logs: NewExerciseLogInput[]) => {
+  addExerciseLog: async (
+    exerciseId: string,
+    userId: string,
+    logs: NewExerciseLogInput[]
+  ) => {
     // Transform logs before inserting
     const formattedLogs = logs.map((log, index) => ({
-      userId: "1", // Hardcoded until auth is ready
+      userId: userId,
       exerciseId,
       date: log.date ? new Date(log.date) : new Date(),
       setNumber: index + 1, // assigned on BE not front
