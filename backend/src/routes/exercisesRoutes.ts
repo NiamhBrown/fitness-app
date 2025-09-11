@@ -9,6 +9,7 @@ const router = Router();
 
 // get auth set up on one route first
 router.get("/", exerciseController.getAllExercises);
+router.get("/:id", exerciseController.getExercise);
 router.get("/:id/history", exerciseController.getExerciseLogs);
 router.post("/:id/history", exerciseController.addExerciseLog);
 router.put("/history", exerciseController.updateExerciseLog);

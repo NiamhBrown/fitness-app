@@ -31,7 +31,7 @@ export const ExerciseLibrary = () => {
       return res.data.data;
     },
   });
-  console.log("DATA😛", exercises);
+
   if (isLoading) return <p>Loading exercises...</p>;
   if (isError) return <p>Error loading exercises.</p>;
 

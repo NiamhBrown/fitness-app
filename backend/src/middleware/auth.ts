@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { PrismaClient } from "@prisma/client";
+import { Request, Response, NextFunction } from "express";
 
 // this here for now, think i shuld be creating one client for whole BE?? in the app. ts file?
 
@@ -10,7 +11,11 @@ const supabase = createClient(
 );
 // import { Request, Response, NextFunction } from "express"
 // should i add these types here req: Request, res: Response, next: NextFunction
-export const authenticateToken = async (req, res, next) => {
+export const authenticateToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     // Extract token from Authorization header
     const authHeader = req.headers.authorization;

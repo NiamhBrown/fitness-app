@@ -14,7 +14,8 @@ export const exerciseController = {
   ) => {
     console.log("🔥 Received GET request to /exercises");
     // trying to see if the user is being added correctly to this req
-    console.log("❤️‍🔥❤️‍🔥❤️‍🔥REQ", req?.user?.id);
+    console.log("REQ.user", req?.user);
+    console.log("❤️‍🔥❤️‍🔥❤️‍🔥REQ.user.id", req?.user?.id);
 
     try {
       const exercises = await exercisesService.getAllExercises();
@@ -30,12 +31,8 @@ export const exerciseController = {
         .json({ status: 500, message: "Failed to fetch exercises" });
     }
   },
-
-  getExerciseLogs: async (
-    req: Request,
-    res: Response<ApiResponse<ExerciseLog[]>>
-  ) => {
-    console.log("🔥 Received GET request to /exercises/:id/history");
+  getExercise: async (req: Request, res: Response<ApiResponse<Exercise>>) => {
+    console.log("🔥 Received GET request to /exercises/:id");
     const { id } = req.params;
     if (!id) {
       return res
@@ -43,7 +40,35 @@ export const exerciseController = {
         .json({ status: 400, message: "Valid exerciseId is required" });
     }
     try {
-      const exerciseLogs = await exercisesService.getExerciseLogs(id);
+      const exercise = await exercisesService.getExercise(id);
+      res.json({
+        status: 200,
+        message: "Exercises fetched successfully",
+        data: exercise,
+      });
+    } catch (err) {}
+  },
+
+  getExerciseLogs: async (
+    req: Request,
+    res: Response<ApiResponse<ExerciseLog[]>>
+  ) => {
+    console.log("🔥 Received GET request to /exercises/:id/history");
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    if (!id) {
+      return res
+        .status(400)
+        .json({ status: 400, message: "Valid exerciseId is required" });
+    }
+    if (!userId) {
+      return res
+        .status(400)
+        .json({ status: 400, message: "Valid euserId is required" });
+    }
+    try {
+      const exerciseLogs = await exercisesService.getExerciseLogs(id, userId);
       res.json({
         status: 200,
         message: "Exercise logs fetched successfully",
@@ -62,6 +87,7 @@ export const exerciseController = {
   ) => {
     console.log("🔥 Received POST request to /exercises/:id/history");
     const { id } = req.params;
+    const userId = req.user.id;
     const data = req.body;
 
     if (!id) {
@@ -78,7 +104,11 @@ export const exerciseController = {
     }
 
     try {
-      const exerciseLogs = await exercisesService.addExerciseLog(id, data);
+      const exerciseLogs = await exercisesService.addExerciseLog(
+        id,
+        userId,
+        data
+      );
       res.json({
         status: 200,
         message: "Exercise logs added successfully",
