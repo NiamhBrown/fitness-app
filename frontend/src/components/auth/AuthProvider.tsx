@@ -1,38 +1,9 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from "react";
+import type { Session, User } from "@supabase/supabase-js";
+import { useEffect, useState } from "react";
 import { supabase } from "../../supabaseClient";
-import type { AuthResponse, Session, User } from "@supabase/supabase-js";
+import type { AuthProviderProps } from "../../types/types";
+import { AuthContext } from "../../hooks/use-auth";
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-// remove later
-// eslint-disable-next-line react-refresh/only-export-components
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within AuthProvider");
-  }
-  return context;
-};
-
-// mvoe to type file
-type AuthProviderProps = {
-  children: ReactNode;
-};
-type AuthContextType = {
-  user: User | null;
-  session: Session | null;
-  loading: boolean;
-  signIn: (email: string, password: string) => Promise<AuthResponse>;
-  signUp: (email: string, password: string) => Promise<AuthResponse>;
-  signOut: () => Promise<{ error: Error | null }>;
-  isAuthenticated: boolean;
-};
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
@@ -74,16 +45,39 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const signIn = async (email: string, password: string) => {
-    return await supabase.auth.signInWithPassword({ email, password });
+  const signIn = async (
+    email: string,
+    password: string
+  ): Promise<{ user: User | null; error: string | null }> => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    console.log("⭐️token⭐️:", data.session?.access_token);
+
+    if (error) {
+      return { user: null, error: error.message };
+    }
+
+    return { user: data.user, error: null };
   };
 
-  const signUp = async (email: string, password: string) => {
-    return await supabase.auth.signUp({ email, password });
+  const signUp = async (
+    email: string,
+    password: string
+  ): Promise<{ user: User | null; error: string | null }> => {
+    const { data, error } = await supabase.auth.signUp({ email, password });
+
+    if (error) {
+      return { user: null, error: error.message };
+    }
+
+    return { user: data.user, error: null };
   };
 
   const signOut = async () => {
-    return await supabase.auth.signOut();
+    const { error } = await supabase.auth.signOut();
+    return { error: error ? error.message : null };
   };
 
   return (

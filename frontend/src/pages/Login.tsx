@@ -1,29 +1,22 @@
 import { useState } from "react";
-import { supabase } from "../supabaseClient";
+import { useAuth } from "../hooks/use-auth";
 
 export default function AuthForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [mode, setMode] = useState<"login" | "signup">("signup");
+  const { signIn, signUp } = useAuth();
 
   const handleAuth = async () => {
     if (mode === "signup") {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-      });
+      const { user, error } = await signUp(email, password);
       if (error) console.error("Signup error:", error);
-      else console.log("Signup success:", data);
+      else console.log("Signup success:", user);
     } else {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { user, error } = await signIn(email, password);
       if (error) console.error("Login error:", error);
       else {
-        console.log("Login success:", data);
-        // this gets stored in local storage (?) so you can access the session and taken in your requests using getSession(), just logging here for debugging/ proof of concept
-        console.log("⭐️token:", data.session.access_token);
+        console.log("Login success, user:", user);
       }
     }
   };
