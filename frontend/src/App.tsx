@@ -7,7 +7,7 @@ import Login from "./pages/Login";
 import AuthProvider from "./components/auth/AuthProvider";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { PublicRoute } from "./components/auth/PublicRoute";
-import { NavbarLayout } from "./components/NavBarLayout";
+import { NavbarLayout } from "./components/NavbarLayout";
 
 const queryClient = new QueryClient();
 

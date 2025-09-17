@@ -1,3 +1,6 @@
+import type { Session, User } from "@supabase/supabase-js";
+import type { ReactNode } from "react";
+
 export type Exercise = {
   id: string;
   name: string;
@@ -30,4 +33,22 @@ export type UpdateExerciseLogInput = {
 // overkill?
 export type ExerciseHistoryTableProps = {
   logs: ExerciseLog[]; // array of sets filtered for a particular exercise
+};
+export type AuthProviderProps = {
+  children: ReactNode;
+};
+export type AuthContextType = {
+  user: User | null;
+  session: Session | null;
+  loading: boolean;
+  signIn: (
+    email: string,
+    password: string
+  ) => Promise<{ user: User | null; error: string | null }>;
+  signUp: (
+    email: string,
+    password: string
+  ) => Promise<{ user: User | null; error: string | null }>;
+  signOut: () => Promise<{ error: string | null }>;
+  isAuthenticated: boolean;
 };
