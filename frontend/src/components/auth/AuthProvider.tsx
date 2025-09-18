@@ -27,7 +27,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
           setUser(user);
         }
       }
-      setLoading(false);
     };
 
     getInitialSession();
@@ -49,6 +48,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     email: string,
     password: string
   ): Promise<{ user: User | null; error: string | null }> => {
+    setLoading(true);
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -56,9 +56,10 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     console.log("⭐️token⭐️:", data.session?.access_token);
 
     if (error) {
+      setLoading(false);
       return { user: null, error: error.message };
     }
-
+    setLoading(false);
     return { user: data.user, error: null };
   };
 
@@ -66,17 +67,21 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     email: string,
     password: string
   ): Promise<{ user: User | null; error: string | null }> => {
+    setLoading(true);
     const { data, error } = await supabase.auth.signUp({ email, password });
 
     if (error) {
+      setLoading(false);
       return { user: null, error: error.message };
     }
-
+    setLoading(false);
     return { user: data.user, error: null };
   };
 
   const signOut = async () => {
+    setLoading(true);
     const { error } = await supabase.auth.signOut();
+    setLoading(false);
     return { error: error ? error.message : null };
   };
 
