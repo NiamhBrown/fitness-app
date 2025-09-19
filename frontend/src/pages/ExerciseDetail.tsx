@@ -1,8 +1,9 @@
+import { AddLogDialog } from "@/components/exercise-library/AddLogDialog";
 import { Link, useParams } from "react-router-dom";
-import { AddLogButton } from "../components/exercise-library/AddLogButton";
 import ExerciseHistoryTable from "../components/exercise-library/ExerciseHistoryTable";
 import { useExercise } from "../hooks/use-exercise";
 import { useExerciseLogs } from "../hooks/use-exerciseLogs";
+import { AddLogsForm } from "@/components/exercise-library/AddLogsForm";
 
 export const ExerciseDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -11,6 +12,7 @@ export const ExerciseDetail = () => {
 
   if (isLoading) return <p>Loading exercise history...</p>;
   if (isError) return <p>Error loading logs.</p>;
+  if (!id) return <p>Error no id</p>;
 
   return (
     <div>
@@ -19,7 +21,8 @@ export const ExerciseDetail = () => {
       </Link>
       <h1>{exercise?.name} History</h1>
       <p>{exercise?.description}</p>
-      <AddLogButton />
+      <AddLogDialog />
+      <AddLogsForm exerciseId={id} />
       {exerciseLogs?.length ? (
         <ExerciseHistoryTable logs={exerciseLogs} />
       ) : (
