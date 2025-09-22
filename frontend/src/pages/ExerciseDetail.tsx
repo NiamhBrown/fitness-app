@@ -3,7 +3,6 @@ import { Link, useParams } from "react-router-dom";
 import ExerciseHistoryTable from "../components/exercise-library/ExerciseHistoryTable";
 import { useExercise } from "../hooks/use-exercise";
 import { useExerciseLogs } from "../hooks/use-exerciseLogs";
-import { AddLogsForm } from "@/components/exercise-library/AddLogsForm";
 
 export const ExerciseDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -16,13 +15,11 @@ export const ExerciseDetail = () => {
 
   return (
     <div>
-      <Link to={`/`}>
-        <button>Back</button>
-      </Link>
+      <Link to={`/`}>Back</Link>
       <h1>{exercise?.name} History</h1>
       <p>{exercise?.description}</p>
-      <AddLogDialog />
-      <AddLogsForm exerciseId={id} />
+      <AddLogDialog exerciseId={id} />
+      {/* <AddLogsForm exerciseId={id} /> */}
       {exerciseLogs?.length ? (
         <ExerciseHistoryTable logs={exerciseLogs} />
       ) : (

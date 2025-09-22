@@ -32,7 +32,6 @@ export function useAddLog() {
       return res.data.data as ExerciseLog;
     },
     onSuccess: (_, variables) => {
-      // Invalidate the logs query for this exercise so it refetches
       queryClient.invalidateQueries({
         queryKey: ["exerciseLogs", variables.exerciseId],
       });
