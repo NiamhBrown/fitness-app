@@ -30,7 +30,6 @@ export const AuthForm = ({ mode }: AuthFormProps) => {
       }
     }
   };
-
   return (
     <div>
       <h2>{mode === "signup" ? "create an account" : "welcome back 😊"}</h2>
