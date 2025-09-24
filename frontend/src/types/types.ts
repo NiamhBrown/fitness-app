@@ -47,7 +47,9 @@ export type AuthContextType = {
   ) => Promise<{ user: User | null; error: string | null }>;
   signUp: (
     email: string,
-    password: string
+    password: string,
+    firstName: string,
+    lastName: string
   ) => Promise<{ user: User | null; error: string | null }>;
   signOut: () => Promise<{ error: string | null }>;
   isAuthenticated: boolean;

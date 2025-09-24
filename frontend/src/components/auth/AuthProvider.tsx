@@ -65,10 +65,21 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const signUp = async (
     email: string,
-    password: string
+    password: string,
+    firstName: string,
+    lastName: string
   ): Promise<{ user: User | null; error: string | null }> => {
     setLoading(true);
-    const { data, error } = await supabase.auth.signUp({ email, password });
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          first_name: firstName,
+          last_name: lastName,
+        },
+      },
+    });
 
     if (error) {
       setLoading(false);

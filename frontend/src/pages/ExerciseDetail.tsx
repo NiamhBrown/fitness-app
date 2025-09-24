@@ -15,7 +15,7 @@ export const ExerciseDetail = () => {
 
   return (
     <div>
-      <Link to={`/`}>Back</Link>
+      <Link to={`/exercise-library `}>Back</Link>
       <h1>{exercise?.name} History</h1>
       <p>{exercise?.description}</p>
       <AddLogDialog exerciseId={id} />
