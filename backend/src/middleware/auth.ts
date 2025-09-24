@@ -37,11 +37,14 @@ export const authenticateToken = async (
     // check local user table if already exists
     let appUser = await prisma.user.findUnique({ where: { id: authUser.id } });
 
+    // when user signed up on FE first/last name from form got stored in metadata
     if (!appUser) {
       appUser = await prisma.user.create({
         data: {
           id: authUser.id, // same ID as auth table
-          email: authUser.email, // optional, nice for debugging
+          email: authUser.email,
+          firstName: authUser.user_metadata.first_name,
+          lastName: authUser.user_metadata.last_name,
           createdAt: new Date(),
         },
       });

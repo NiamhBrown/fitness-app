@@ -64,15 +64,15 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const signUp = async (
-    email: string,
-    password: string,
     firstName: string,
-    lastName: string
+    lastName: string,
+    email: string,
+    password: string
   ): Promise<{ user: User | null; error: string | null }> => {
     setLoading(true);
     const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
+      email: email,
+      password: password,
       options: {
         data: {
           first_name: firstName,

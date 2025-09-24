@@ -17,36 +17,25 @@ const main = async () => {
       where: { id: "1" },
       update: {
         email: "niamh@me.com",
-        name: "niamh",
+        firstName: "niamh",
       },
       create: {
         id: "1",
         email: "niamh@me.com",
-        name: "niamh",
+        firstName: "niamh",
+        lastName: "brown",
       },
     }),
     prisma.user.upsert({
       where: { id: "2" },
       update: {
         email: "ida@me.com",
-        name: "ida",
+        firstName: "ida",
       },
       create: {
         id: "2",
         email: "ida@me.com",
-        name: "ida",
-      },
-    }),
-    prisma.user.upsert({
-      where: { id: "3" },
-      update: {
-        email: "grass@me.com",
-        name: "grass",
-      },
-      create: {
-        id: "3",
-        email: "grass@me.com",
-        name: "grass",
+        firstName: "ida",
       },
     }),
   ]);
@@ -112,88 +101,88 @@ const main = async () => {
     ],
   });
   // Seed exercise logs
-  console.log("📊 Seeding exercise logs...");
-  await prisma.exerciseLog.createMany({
-    data: [
-      // Bench Press logs
-      {
-        userId: "1",
-        exerciseId: benchPress.id,
-        date: new Date("2025-08-22"),
-        setNumber: 1,
-        reps: 8,
-        weight: 60,
-      },
-      {
-        userId: "1",
-        exerciseId: benchPress.id,
-        date: new Date("2025-08-22"),
-        setNumber: 2,
-        reps: 6,
-        weight: 60,
-      },
-      {
-        userId: "1",
-        exerciseId: benchPress.id,
-        date: new Date("2025-08-25"),
-        setNumber: 1,
-        reps: 8,
-        weight: 65,
-      },
-      {
-        userId: "2",
-        exerciseId: benchPress.id,
-        date: new Date("2025-08-25"),
-        setNumber: 1,
-        reps: 8,
-        weight: 60,
-      },
+  // console.log("📊 Seeding exercise logs...");
+  // await prisma.exerciseLog.createMany({
+  //   data: [
+  //     // Bench Press logs
+  //     {
+  //       userId: "1",
+  //       exerciseId: benchPress.id,
+  //       date: new Date("2025-08-22"),
+  //       setNumber: 1,
+  //       reps: 8,
+  //       weight: 60,
+  //     },
+  //     {
+  //       userId: "1",
+  //       exerciseId: benchPress.id,
+  //       date: new Date("2025-08-22"),
+  //       setNumber: 2,
+  //       reps: 6,
+  //       weight: 60,
+  //     },
+  //     {
+  //       userId: "1",
+  //       exerciseId: benchPress.id,
+  //       date: new Date("2025-08-25"),
+  //       setNumber: 1,
+  //       reps: 8,
+  //       weight: 65,
+  //     },
+  //     {
+  //       userId: "2",
+  //       exerciseId: benchPress.id,
+  //       date: new Date("2025-08-25"),
+  //       setNumber: 1,
+  //       reps: 8,
+  //       weight: 60,
+  //     },
 
-      // Squat logs
-      {
-        userId: "1",
-        exerciseId: squat.id,
-        date: new Date("2025-08-26"),
-        setNumber: 1,
-        reps: 10,
-        weight: 80,
-      },
-      {
-        userId: "1",
-        exerciseId: squat.id,
-        date: new Date("2025-08-26"),
-        setNumber: 2,
-        reps: 8,
-        weight: 80,
-      },
-      {
-        userId: "2",
-        exerciseId: squat.id,
-        date: new Date("2025-08-25"),
-        setNumber: 1,
-        reps: 8,
-        weight: 60,
-      },
+  //     // Squat logs
+  //     {
+  //       userId: "1",
+  //       exerciseId: squat.id,
+  //       date: new Date("2025-08-26"),
+  //       setNumber: 1,
+  //       reps: 10,
+  //       weight: 80,
+  //     },
+  //     {
+  //       userId: "1",
+  //       exerciseId: squat.id,
+  //       date: new Date("2025-08-26"),
+  //       setNumber: 2,
+  //       reps: 8,
+  //       weight: 80,
+  //     },
+  //     {
+  //       userId: "2",
+  //       exerciseId: squat.id,
+  //       date: new Date("2025-08-25"),
+  //       setNumber: 1,
+  //       reps: 8,
+  //       weight: 60,
+  //     },
 
-      // Deadlift logs
-      {
-        userId: "1",
-        exerciseId: deadlift.id,
-        date: new Date("2025-08-24"),
-        setNumber: 1,
-        reps: 5,
-        weight: 100,
-      },
-      {
-        userId: "2",
-        exerciseId: deadlift.id,
-        date: new Date("2025-08-24"),
-        setNumber: 1,
-        reps: 3,
-        weight: 80,
-      },
-    ],
-  });
+  //     // Deadlift logs
+  //     {
+  //       userId: "1",
+  //       exerciseId: deadlift.id,
+  //       date: new Date("2025-08-24"),
+  //       setNumber: 1,
+  //       reps: 5,
+  //       weight: 100,
+  //     },
+  //     {
+  //       userId: "2",
+  //       exerciseId: deadlift.id,
+  //       date: new Date("2025-08-24"),
+  //       setNumber: 1,
+  //       reps: 3,
+  //       weight: 80,
+  //     },
+  //   ],
+  // });
 
   console.log("✅ Database seeded successfully!");
 };
