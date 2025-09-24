@@ -3,11 +3,13 @@ import "./App.css";
 import { ExerciseLibrary } from "./pages/ExerciseLibrary";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ExerciseDetail } from "./pages/ExerciseDetail";
-import Login from "./pages/Login";
 import AuthProvider from "./components/auth/AuthProvider";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { PublicRoute } from "./components/auth/PublicRoute";
 import { NavbarLayout } from "./components/NavbarLayout";
+import { LoginPage } from "./pages/LoginPage";
+import { LandingPage } from "./pages/LandingPage";
+import { SignupPage } from "./pages/SignupPage";
 
 const queryClient = new QueryClient();
 
@@ -17,11 +19,13 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route element={<PublicRoute />}>
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
           </Route>
           <Route element={<ProtectedRoute />}>
             <Route element={<NavbarLayout />}>
-              <Route path="/" element={<ExerciseLibrary />} />
+              <Route path="/exercise-library" element={<ExerciseLibrary />} />
               <Route path="/exercise/:id" element={<ExerciseDetail />} />
             </Route>
           </Route>
