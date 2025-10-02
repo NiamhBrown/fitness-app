@@ -14,9 +14,9 @@ import { SignupPage } from "./pages/SignupPage";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <AuthProvider>
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
+  <QueryClientProvider client={queryClient}>
+    <BrowserRouter>
+      <AuthProvider>
         <Routes>
           <Route element={<PublicRoute />}>
             <Route path="/" element={<LandingPage />} />
@@ -30,9 +30,9 @@ const App = () => (
             </Route>
           </Route>
         </Routes>
-      </BrowserRouter>
-    </QueryClientProvider>
-  </AuthProvider>
+      </AuthProvider>
+    </BrowserRouter>
+  </QueryClientProvider>
 );
 
 export default App;
