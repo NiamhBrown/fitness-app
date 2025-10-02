@@ -1,15 +1,14 @@
-import { supabase } from "../supabaseClient";
+import { useAuth } from "@/hooks/use-auth";
 
 export const Navbar = () => {
-  const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) console.error("Logout error:", error);
-  };
+  const { signOut } = useAuth();
 
   return (
-    <>
-      <button onClick={handleLogout}>Logout</button>
-      <p>NAVBAR</p>
-    </>
+    <div className=" flex flex-row px-6 py-4 justify-between">
+      <div className="bg-primary w-12 h-12 rounded-full flex "></div>
+      <div className=" flex text-primary hover:underline">
+        <button onClick={signOut}>logout</button>
+      </div>
+    </div>
   );
 };

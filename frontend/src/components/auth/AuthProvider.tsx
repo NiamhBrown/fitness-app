@@ -80,7 +80,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         },
       },
     });
-
     if (error) {
       setLoading(false);
       return { user: null, error: error.message };

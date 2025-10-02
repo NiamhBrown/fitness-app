@@ -1,13 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Ultra&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-heading: "Ultra", serif;
+  --font-body: "Sansation", sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --color-hivis: var(--hivis);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -43,16 +47,17 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: oklch(0.9785 0.0067 97.35);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
+  --hivis: oklch(0.941 0.1664 120.66);
+  --primary: oklch(0.5427 0.1435 263.4);
+  --primary-foreground: oklch(0.9785 0.0067 97.35);
+  --secondary: oklch(0.8285 0.0841 310.4);
+  --secondary-foreground: oklch(0 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
   --accent: oklch(0.97 0 0);
@@ -84,6 +89,7 @@
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.922 0 0);
+  --primary: oklch(0.5427 0.1435 263.4);
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
@@ -115,6 +121,14 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overscroll-none font-body;
+  }
+}
+
+@layer components {
+  .form-input-underline {
+    @apply border-0 border-b border-secondary rounded-none bg-transparent 
+           focus:ring-0 focus-visible:ring-0 focus:outline-none 
+           focus:border-hivis shadow-none placeholder:text-primary caret-hivis;
   }
 }
