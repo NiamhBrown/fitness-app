@@ -69,7 +69,7 @@ export const AddLogDialog = ({ exerciseId }: Props) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Add</Button>
+        <Button variant="secondary">add</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

@@ -1,15 +1,10 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import type { Exercise } from "../types/types";
-import { supabase } from "../supabaseClient";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { supabase } from "../supabaseClient";
+import type { Exercise } from "../types/types";
 
 export const useExercise = (id: string | undefined) => {
-  const queryClient = useQueryClient();
-
-  // Try to get exercise info from cache first
-  const cachedExercises = queryClient.getQueryData<Exercise[]>(["exercises"]);
-  const exerciseFromCache = cachedExercises?.find((ex) => ex.id === id);
-
+  // should u try get from cache first? but was causing issues when there were errors cause it'd cache empty data
   return useQuery<Exercise>({
     queryKey: ["exercise", id],
     queryFn: async () => {
@@ -26,7 +21,6 @@ export const useExercise = (id: string | undefined) => {
       });
       return res.data.data;
     },
-    enabled: !!id && !exerciseFromCache, // fetch only if cache didn't have it and theres an id(?)
-    initialData: exerciseFromCache, // seed initial data from cache
+    enabled: !!id,
   });
 };

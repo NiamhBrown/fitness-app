@@ -11,26 +11,32 @@ const ExerciseHistoryTable: React.FC<ExerciseHistoryTableProps> = ({
   logs,
 }) => {
   // Group sets by date for display
-  const groupedLogs = Object.values(
-    logs.reduce(
-      (acc: Record<string, { date: string; sets: ExerciseLog[] }>, set) => {
-        if (!acc[set.date]) acc[set.date] = { date: set.date, sets: [] };
-        acc[set.date].sets.push(set);
-        return acc;
-      },
-      {}
-    )
+  const groupedByDate = logs.reduce(
+    (acc, log) => {
+      acc[log.date] ??= { date: log.date, sets: [] };
+      acc[log.date].sets.push(log);
+      return acc;
+    },
+    {} as Record<string, { date: string; sets: ExerciseLog[] }>,
   );
+
+  const groupedLogs = Object.values(groupedByDate);
 
   const columnHelper = createColumnHelper<(typeof groupedLogs)[0]>();
 
   const columns = [
     columnHelper.accessor("date", {
-      header: "Date",
-      cell: (info) => info.getValue(),
+      header: "date",
+      size: 250,
+      cell: (info) => {
+        const rawDate = info.getValue();
+        const d = new Date(rawDate);
+        return d.toLocaleDateString();
+      },
     }),
     columnHelper.accessor("sets", {
-      header: "Sets",
+      header: "sets",
+      size: 999,
       cell: (info) => {
         const sets = info.getValue();
         return (
@@ -47,18 +53,22 @@ const ExerciseHistoryTable: React.FC<ExerciseHistoryTableProps> = ({
   });
 
   return (
-    <div>
+    <div className="bg-secondary text-primary rounded p-3">
       <table>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th key={header.id}>
+                <th
+                  key={header.id}
+                  className="text-left"
+                  style={{ width: header.column.getSize() }}
+                >
                   {header.isPlaceholder
                     ? null
                     : flexRender(
                         header.column.columnDef.header,
-                        header.getContext()
+                        header.getContext(),
                       )}
                 </th>
               ))}
@@ -69,7 +79,7 @@ const ExerciseHistoryTable: React.FC<ExerciseHistoryTableProps> = ({
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
+                <td key={cell.id} className="pb-2">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
