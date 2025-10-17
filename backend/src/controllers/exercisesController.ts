@@ -10,12 +10,9 @@ import { Exercise, ExerciseLog } from "@prisma/client";
 export const exerciseController = {
   getAllExercises: async (
     req: Request,
-    res: Response<ApiResponse<Exercise[]>>
+    res: Response<ApiResponse<Exercise[]>>,
   ) => {
     console.log("🔥 Received GET request to /exercises");
-    // trying to see if the user is being added correctly to this req
-    console.log("REQ.user", req?.user);
-    console.log("❤️‍🔥❤️‍🔥❤️‍🔥REQ.user.id", req?.user?.id);
 
     try {
       const exercises = await exercisesService.getAllExercises();
@@ -51,7 +48,7 @@ export const exerciseController = {
 
   getExerciseLogs: async (
     req: Request,
-    res: Response<ApiResponse<ExerciseLog[]>>
+    res: Response<ApiResponse<ExerciseLog[]>>,
   ) => {
     console.log("🔥 Received GET request to /exercises/:id/history");
     const { id } = req.params;
@@ -83,7 +80,7 @@ export const exerciseController = {
   },
   addExerciseLog: async (
     req: Request<{ id: string }, {}, NewExerciseLogInput[]>,
-    res: Response
+    res: Response,
   ) => {
     console.log("🔥 Received POST request to /exercises/:id/history");
     const { id } = req.params;
@@ -107,7 +104,7 @@ export const exerciseController = {
       const exerciseLogs = await exercisesService.addExerciseLog(
         id,
         userId,
-        data
+        data,
       );
       res.json({
         status: 200,
@@ -123,7 +120,7 @@ export const exerciseController = {
   },
   updateExerciseLog: async (
     req: Request<UpdateExerciseLogInput[]>,
-    res: Response
+    res: Response,
   ) => {
     console.log("🔥 Received PUT request to /exercises/history");
     const data = req.body;

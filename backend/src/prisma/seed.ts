@@ -1,6 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "../prisma";
 
 const main = async () => {
   console.log("🌱 Starting database seeding...");
@@ -41,149 +39,39 @@ const main = async () => {
   ]);
 
   console.log("💪 Seeding exercises...");
-  const benchPress = await prisma.exercise.upsert({
-    where: { name: "Bench Press" },
-    update: {
-      muscleGroup: "Upper",
-      description: "A compound chest exercise.",
-    },
-    create: {
-      name: "Bench Press",
-      muscleGroup: "Upper",
-      description: "A compound chest exercise.",
-    },
-  });
+  const exercises = [
+    { name: "Hip Abductor" },
+    { name: "Hip Adductor" },
+    { name: "Romanian Deadlift (RDL)" },
+    { name: "Elevated Goblet Squat" },
+    { name: "Assisted Pull-Up" },
+    { name: "Glute Drive (Hip Thrust Machine)" },
+    { name: "Barbell Squat" },
+    { name: "Smith Machine Split Squat" },
+    { name: "Single Leg Press" },
+    { name: "Tricep Cable Extension" },
+    { name: "Shoulder Press" },
+    { name: "Neutral Grip Pulldown" },
+    { name: "Barbell Bent-Over Row" },
+    { name: "Barbell Seated Overhead Extension" },
+    { name: "Bicep Curl" },
+    { name: "Bench Press" },
+  ];
 
-  const squat = await prisma.exercise.upsert({
-    where: { name: "Squat" },
-    update: {
-      muscleGroup: "Lower",
-      description: "A compound lower-body exercise.",
-    },
-    create: {
-      name: "Squat",
-      muscleGroup: "Lower",
-      description: "A compound lower-body exercise.",
-    },
-  });
-
-  const deadlift = await prisma.exercise.upsert({
-    where: { name: "Deadlift" },
-    update: {
-      muscleGroup: "Lower",
-      description: "A compound posterior chain exercise.",
-    },
-    create: {
-      name: "Deadlift",
-      muscleGroup: "Lower",
-      description: "A compound posterior chain exercise.",
-    },
-  });
-
-  // Seed PBs
-  console.log("🏆 Seeding PBs...");
-  await prisma.personalBest.createMany({
-    data: [
-      {
-        userId: "1",
-        exerciseId: benchPress.id,
-        date: new Date("2025-08-22"),
-        reps: 8,
-        weight: 60,
+  for (const exercise of exercises) {
+    await prisma.exercise.upsert({
+      where: { name: exercise.name },
+      update: {
+        muscleGroup: "placeholder",
+        description: "placeholder",
       },
-      {
-        userId: "2",
-        exerciseId: benchPress.id,
-        date: new Date("2025-08-22"),
-        reps: 8,
-        weight: 60,
+      create: {
+        name: exercise.name,
+        muscleGroup: "placeholder",
+        description: "placeholder",
       },
-    ],
-  });
-  // Seed exercise logs
-  // console.log("📊 Seeding exercise logs...");
-  // await prisma.exerciseLog.createMany({
-  //   data: [
-  //     // Bench Press logs
-  //     {
-  //       userId: "1",
-  //       exerciseId: benchPress.id,
-  //       date: new Date("2025-08-22"),
-  //       setNumber: 1,
-  //       reps: 8,
-  //       weight: 60,
-  //     },
-  //     {
-  //       userId: "1",
-  //       exerciseId: benchPress.id,
-  //       date: new Date("2025-08-22"),
-  //       setNumber: 2,
-  //       reps: 6,
-  //       weight: 60,
-  //     },
-  //     {
-  //       userId: "1",
-  //       exerciseId: benchPress.id,
-  //       date: new Date("2025-08-25"),
-  //       setNumber: 1,
-  //       reps: 8,
-  //       weight: 65,
-  //     },
-  //     {
-  //       userId: "2",
-  //       exerciseId: benchPress.id,
-  //       date: new Date("2025-08-25"),
-  //       setNumber: 1,
-  //       reps: 8,
-  //       weight: 60,
-  //     },
-
-  //     // Squat logs
-  //     {
-  //       userId: "1",
-  //       exerciseId: squat.id,
-  //       date: new Date("2025-08-26"),
-  //       setNumber: 1,
-  //       reps: 10,
-  //       weight: 80,
-  //     },
-  //     {
-  //       userId: "1",
-  //       exerciseId: squat.id,
-  //       date: new Date("2025-08-26"),
-  //       setNumber: 2,
-  //       reps: 8,
-  //       weight: 80,
-  //     },
-  //     {
-  //       userId: "2",
-  //       exerciseId: squat.id,
-  //       date: new Date("2025-08-25"),
-  //       setNumber: 1,
-  //       reps: 8,
-  //       weight: 60,
-  //     },
-
-  //     // Deadlift logs
-  //     {
-  //       userId: "1",
-  //       exerciseId: deadlift.id,
-  //       date: new Date("2025-08-24"),
-  //       setNumber: 1,
-  //       reps: 5,
-  //       weight: 100,
-  //     },
-  //     {
-  //       userId: "2",
-  //       exerciseId: deadlift.id,
-  //       date: new Date("2025-08-24"),
-  //       setNumber: 1,
-  //       reps: 3,
-  //       weight: 80,
-  //     },
-  //   ],
-  // });
-
+    });
+  }
   console.log("✅ Database seeded successfully!");
 };
 

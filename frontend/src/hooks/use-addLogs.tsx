@@ -8,7 +8,7 @@ type AddLogInput = {
   logs: { reps: number; weight: number }[];
 };
 
-export function useAddLog() {
+export function useAddLog(opts?: { onSuccess?: () => void }) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -27,7 +27,7 @@ export function useAddLog() {
           headers: {
             Authorization: `Bearer ${session.access_token}`,
           },
-        }
+        },
       );
       return res.data.data as ExerciseLog;
     },
@@ -35,6 +35,7 @@ export function useAddLog() {
       queryClient.invalidateQueries({
         queryKey: ["exerciseLogs", variables.exerciseId],
       });
+      opts?.onSuccess?.();
     },
   });
 }

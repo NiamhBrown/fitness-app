@@ -11,13 +11,13 @@ const inputVariants = cva(
         default:
           "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input rounded-md border bg-transparent shadow-xs focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
         underline:
-          "border-0 border-b border-secondary rounded-none bg-transparent shadow-none placeholder:text-primary caret-hivis focus:border-hivis focus:ring-0 focus-visible:ring-0",
+          "border-0 border-b border-secondary rounded-none bg-transparent shadow-none placeholder:text-primary placeholder:text-opacity-75 caret-hivis focus:border-hivis focus:ring-0 focus-visible:ring-0",
       },
     },
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 export interface InputProps

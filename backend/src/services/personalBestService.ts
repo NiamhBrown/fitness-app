@@ -1,6 +1,6 @@
-import { ExerciseLog, PrismaClient } from "@prisma/client";
+import { ExerciseLog } from "@prisma/client";
 import { NewExerciseLogInput } from "../types/types";
-const prisma = new PrismaClient();
+import { prisma } from "../prisma";
 
 // add types
 export const personalBestService = {
