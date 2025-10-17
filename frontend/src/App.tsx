@@ -6,16 +6,19 @@ import { ExerciseDetail } from "./pages/ExerciseDetail";
 import AuthProvider from "./components/auth/AuthProvider";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { PublicRoute } from "./components/auth/PublicRoute";
-import { NavbarLayout } from "./components/NavbarLayout";
+import { NavbarLayout } from "./components/navigation/NavbarLayout";
 import { LoginPage } from "./pages/LoginPage";
 import { LandingPage } from "./pages/LandingPage";
 import { SignupPage } from "./pages/SignupPage";
+import ScrollToTop from "./components/navigation/ScrollToTop";
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
+      <ScrollToTop />
       <AuthProvider>
         <Routes>
           <Route element={<PublicRoute />}>
@@ -32,6 +35,7 @@ const App = () => (
         </Routes>
       </AuthProvider>
     </BrowserRouter>
+    {/* <ReactQueryDevtools initialIsOpen={false} position="left" /> */}
   </QueryClientProvider>
 );
 

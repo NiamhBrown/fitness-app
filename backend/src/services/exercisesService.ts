@@ -1,8 +1,8 @@
-import { ExerciseLog, PrismaClient } from "@prisma/client";
+import { ExerciseLog } from "@prisma/client";
 import { NewExerciseLogInput, UpdateExerciseLogInput } from "../types/types";
 import { personalBestService } from "./personalBestService";
+import { prisma } from "../prisma";
 
-const prisma = new PrismaClient();
 export const exercisesService = {
   getAllExercises: async () => {
     const exercises = await prisma.exercise.findMany({
@@ -28,7 +28,7 @@ export const exercisesService = {
   addExerciseLog: async (
     exerciseId: string,
     userId: string,
-    logs: NewExerciseLogInput[]
+    logs: NewExerciseLogInput[],
   ) => {
     // Transform logs before inserting
     const formattedLogs = logs.map((log, index) => ({
@@ -56,19 +56,19 @@ export const exercisesService = {
       if (log.reps !== undefined) data.reps = log.reps;
       if (log.weight !== undefined) data.weight = log.weight;
 
-      // Return a prisma update promise for this log, but doesnt execute yet
+      // return a prisma update promise for this log, but doesnt execute yet
       return prisma.exerciseLog.update({
         where: { id: log.id },
         data,
       });
     });
 
-    // Execute all updates in parallel, faster than updating one by one
+    // execute all updates in parallel, faster than updating one by one
     const result = await Promise.all(formattedLogs);
     for (const log of result) {
       await personalBestService.checkAndUpdatePb(log);
     }
 
-    return result; // Returns the array of updated logs
+    return result;
   },
 };

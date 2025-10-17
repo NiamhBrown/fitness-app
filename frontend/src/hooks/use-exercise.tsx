@@ -4,7 +4,6 @@ import { supabase } from "../supabaseClient";
 import type { Exercise } from "../types/types";
 
 export const useExercise = (id: string | undefined) => {
-  // should u try get from cache first? but was causing issues when there were errors cause it'd cache empty data
   return useQuery<Exercise>({
     queryKey: ["exercise", id],
     queryFn: async () => {

@@ -19,7 +19,7 @@ export const useExerciseLogs = (id: string | undefined) => {
           headers: {
             Authorization: `Bearer ${session.access_token}`,
           },
-        }
+        },
       );
       return res.data.data;
     },

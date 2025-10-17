@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { personalBestService } from "../services/personalBestService";
 
+// NOT USING PBS IN APP YET
 export const personalBestController = {
   getExercisePb: async (req: Request, res: Response) => {
     console.log("🔥 Received GET request to /exercises/:id/personalbest");
