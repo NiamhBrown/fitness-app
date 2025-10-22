@@ -36,6 +36,8 @@ model Exercise {
   // Relations
   exerciseLogs  ExerciseLog[]                      // One exercise -> many logs
   personalBest  PersonalBest[]
+  WorkoutExercise WorkoutExercise[]
+  WorkoutLogExercise WorkoutLogExercise[]
 }
 
 model ExerciseLog {
@@ -68,4 +70,42 @@ model PersonalBest {
   sourceLog  ExerciseLog? @relation(fields: [sourceLogId], references: [id])
 
   @@unique([userId, exerciseId]) // Ensures one PB per user + exercise
+}
+
+// tables for MVP 2 
+model Workout {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  userId      String?
+  createdAt   DateTime @default(now())
+  exercises   WorkoutExercise[]
+  logs        WorkoutLog[]
+}
+
+model WorkoutExercise {
+  id          String   @id @default(uuid())
+  workoutId   String
+  exerciseId  String
+  order       Int?
+  Workout     Workout  @relation(fields: [workoutId], references: [id])
+  Exercise    Exercise @relation(fields: [exerciseId], references: [id])
+}
+
+model WorkoutLog {
+  id         String   @id @default(uuid())
+  workoutId  String
+  userId     String
+  date       DateTime @default(now())
+  exercises  WorkoutLogExercise[]
+  Workout    Workout  @relation(fields: [workoutId], references: [id])
+}
+
+model WorkoutLogExercise {
+  id             String   @id @default(uuid())
+  workoutLogId   String
+  exerciseId     String
+  sets           Json
+  WorkoutLog     WorkoutLog @relation(fields: [workoutLogId], references: [id])
+  Exercise       Exercise   @relation(fields: [exerciseId], references: [id])
 }

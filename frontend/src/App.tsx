@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import { ExerciseLibrary } from "./pages/ExerciseLibrary";
+import { Library } from "./pages/Library";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ExerciseDetail } from "./pages/ExerciseDetail";
 import AuthProvider from "./components/auth/AuthProvider";
@@ -11,6 +11,7 @@ import { LoginPage } from "./pages/LoginPage";
 import { LandingPage } from "./pages/LandingPage";
 import { SignupPage } from "./pages/SignupPage";
 import ScrollToTop from "./components/navigation/ScrollToTop";
+import { WorkoutDetail } from "./pages/WorkoutDetail";
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient();
@@ -28,8 +29,10 @@ const App = () => (
           </Route>
           <Route element={<ProtectedRoute />}>
             <Route element={<NavbarLayout />}>
-              <Route path="/exercise-library" element={<ExerciseLibrary />} />
+              <Route path="/exercises" element={<Library type="exercise" />} />
               <Route path="/exercise/:id" element={<ExerciseDetail />} />
+              <Route path="/workouts" element={<Library type="workout" />} />
+              <Route path="/workout/:id" element={<WorkoutDetail />} />
             </Route>
           </Route>
         </Routes>

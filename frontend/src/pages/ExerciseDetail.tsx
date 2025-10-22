@@ -13,10 +13,7 @@ export const ExerciseDetail = () => {
 
   return (
     <div className="flex min-h-screen flex-col gap-6 p-6 sm:max-w-2xl">
-      <Link
-        to="/exercise-library"
-        className="text-primary flex items-center gap-2"
-      >
+      <Link to="/exercises" className="text-primary flex items-center gap-2">
         <ArrowBigLeft />
         <span className="hover:underline">back</span>
       </Link>
