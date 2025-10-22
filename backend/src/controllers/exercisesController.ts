@@ -43,7 +43,12 @@ export const exerciseController = {
         message: "Exercises fetched successfully",
         data: exercise,
       });
-    } catch (err) {}
+    } catch (err) {
+      console.error("❌ Error fetching exercise:", err);
+      res
+        .status(500)
+        .json({ status: 500, message: "Failed to fetch exercise" });
+    }
   },
 
   getExerciseLogs: async (

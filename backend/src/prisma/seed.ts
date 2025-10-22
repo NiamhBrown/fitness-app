@@ -72,6 +72,72 @@ const main = async () => {
       },
     });
   }
+
+  // try
+  // seed 3x good workouts
+  const bench = await prisma.exercise.findFirst({
+    where: { name: "Bench Press" },
+  });
+  const shoulder = await prisma.exercise.findFirst({
+    where: { name: "Shoulder Press" },
+  });
+  const squat = await prisma.exercise.findFirst({
+    where: { name: "Barbell Squat" },
+  });
+  const deadlift = await prisma.exercise.findFirst({
+    where: { name: "Romanian Deadlift (RDL)" },
+  });
+  const pullup = await prisma.exercise.findFirst({
+    where: { name: "Assisted Pull-Up" },
+  });
+
+  // Check they exist
+  if (!bench || !shoulder || !squat || !deadlift || !pullup) {
+    throw new Error(
+      "Some exercises are missing — make sure you’ve seeded exercises first.",
+    );
+  }
+
+  // 🧱 Create workouts
+  console.log("🫡 Seeding workouts...");
+  const pushWorkout = await prisma.workout.create({
+    data: {
+      name: "Push Day",
+      description: "Chest, shoulders, and triceps focus.",
+      exercises: {
+        create: [
+          { exerciseId: bench.id, order: 1 },
+          { exerciseId: shoulder.id, order: 2 },
+        ],
+      },
+    },
+  });
+
+  const pullWorkout = await prisma.workout.create({
+    data: {
+      name: "Pull Day",
+      description: "Back and biceps focus.",
+      exercises: {
+        create: [
+          { exerciseId: pullup.id, order: 1 },
+          { exerciseId: deadlift.id, order: 2 },
+        ],
+      },
+    },
+  });
+
+  const legsWorkout = await prisma.workout.create({
+    data: {
+      name: "Leg Day",
+      description: "Legs and core focus.",
+      exercises: {
+        create: [{ exerciseId: squat.id, order: 1 }],
+      },
+    },
+  });
+
+  console.log("✅ Seeded workouts:", { pushWorkout, pullWorkout, legsWorkout });
+  // try
   console.log("✅ Database seeded successfully!");
 };
 

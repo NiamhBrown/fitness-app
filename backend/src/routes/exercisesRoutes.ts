@@ -1,4 +1,4 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
 import { exerciseController } from "../controllers/exercisesController";
 import { personalBestController } from "../controllers/personalBestController";
 

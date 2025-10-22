@@ -8,6 +8,13 @@ export type Exercise = {
   muscleGroup?: string;
   createdAt?: string; // or date?
 };
+export type Workout = {
+  id: string;
+  name: string;
+  description?: string;
+  createdAt?: string;
+  userId?: string;
+};
 
 export type ExerciseLog = {
   id: string;
@@ -43,13 +50,13 @@ export type AuthContextType = {
   loading: boolean;
   signIn: (
     email: string,
-    password: string
+    password: string,
   ) => Promise<{ user: User | null; error: string | null }>;
   signUp: (
     email: string,
     password: string,
     firstName: string,
-    lastName: string
+    lastName: string,
   ) => Promise<{ user: User | null; error: string | null }>;
   signOut: () => Promise<{ error: string | null }>;
   isAuthenticated: boolean;

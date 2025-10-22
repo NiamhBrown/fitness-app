@@ -47,14 +47,14 @@ export const AuthForm = ({ mode }: AuthFormProps) => {
         signupData.firstName,
         signupData.lastName,
         signupData.email,
-        signupData.password
+        signupData.password,
       );
       if (error) {
         form.setError("password", { type: "server", message: error });
         console.error("Signup error:", error);
       } else {
         console.log("Signup success:", user);
-        navigate("/exercise-library");
+        navigate("/exercises");
       }
     } else {
       const loginData = data as LoginFormValues;
@@ -65,25 +65,25 @@ export const AuthForm = ({ mode }: AuthFormProps) => {
         return;
       } else {
         console.log("Login success, user:", user);
-        navigate("/exercise-library");
+        navigate("/exercises");
       }
     }
   };
 
   return (
-    <div className="min-h-screen grid grid-rows-[auto_1fr_auto]">
-      <div className="pt-44 flex justify-center">
-        <h2 className="text-4xl sm:text-6xl text-center font-heading text-primary-foreground">
+    <div className="grid min-h-screen grid-rows-[auto_1fr_auto]">
+      <div className="flex justify-center pt-44">
+        <h2 className="font-heading text-primary-foreground text-center text-4xl sm:text-6xl">
           {mode === "signup" ? "create an account" : "welcome back"}
         </h2>
       </div>
 
-      <div className="flex items-center justify-center text-primary">
-        <div className="flex flex-col items-center gap-7 font-body  w-80 md:w-full max-w-md">
+      <div className="text-primary flex items-center justify-center">
+        <div className="font-body flex w-80 max-w-md flex-col items-center gap-7 md:w-full">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleAuth)}
-              className="flex flex-col gap-6 w-full"
+              className="flex w-full flex-col gap-6"
             >
               {mode === "signup" && (
                 <>
@@ -115,19 +115,19 @@ export const AuthForm = ({ mode }: AuthFormProps) => {
                 variant={"underline"}
               />
 
-              <div className="flex flex-col items-center gap-3 mt-5">
+              <div className="mt-5 flex flex-col items-center gap-3">
                 <Button
                   type="submit"
                   disabled={form.formState.isSubmitting}
-                  className="w-full max-w-xs rounded-2xl bg-primary-foreground text-primary hover:bg-hivis"
+                  className="bg-primary-foreground text-primary hover:bg-hivis w-full max-w-xs rounded-2xl"
                 >
                   {form.formState.isSubmitting
                     ? mode === "signup"
                       ? "signing up..."
                       : "logging in..."
                     : mode === "signup"
-                    ? "signup"
-                    : "login"}
+                      ? "signup"
+                      : "login"}
                 </Button>
                 {mode === "signup" ? (
                   <Link to="/login" className="hover:underline">
@@ -145,7 +145,7 @@ export const AuthForm = ({ mode }: AuthFormProps) => {
       </div>
 
       <div className="relative overflow-hidden">
-        <h1 className="text-secondary w-full text-center text-6xl font-heading relative translate-y-4 overflow-hidden opacity-40 sm:hidden">
+        <h1 className="text-secondary font-heading relative w-full translate-y-4 overflow-hidden text-center text-6xl opacity-40 sm:hidden">
           STRONGER
         </h1>
       </div>
