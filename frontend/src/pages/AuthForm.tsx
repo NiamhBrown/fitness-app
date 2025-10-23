@@ -41,7 +41,6 @@ export const AuthForm = ({ mode }: AuthFormProps) => {
 
   const handleAuth = async (data: SignupFormValues | LoginFormValues) => {
     if (mode === "signup") {
-      // a quick fix for now?
       const signupData = data as SignupFormValues;
       const { user, error } = await signUp(
         signupData.firstName,

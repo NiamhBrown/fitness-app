@@ -6,7 +6,7 @@ export const PublicRoute = () => {
   const location = useLocation();
 
   if (isAuthenticated) {
-    const from = location.state?.from ?? "/exercise-library";
+    const from = location.state?.from ?? "/exercises";
     return <Navigate to={from} replace />;
   }
 

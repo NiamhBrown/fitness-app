@@ -1,22 +1,25 @@
 import { AddLogDialog } from "@/components/exercise-library/AddLogDialog";
-import { ArrowBigLeft } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { BackLink } from "@/components/navigation/BackLink";
+import { useParams } from "react-router-dom";
 import ExerciseHistoryTable from "../components/exercise-library/ExerciseHistoryTable";
 import { useExercise } from "../hooks/use-exercise";
 import { useExerciseLogs } from "../hooks/use-exerciseLogs";
-import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { usePersonalBest } from "@/hooks/use-pb";
+import { PersonalBest } from "@/components/PersonalBest";
 
 export const ExerciseDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { data: exercise } = useExercise(id);
   const { data: exerciseLogs, isLoading, isError } = useExerciseLogs(id);
+  const { data: personalBest } = usePersonalBest(id);
+
+  // this works but doesnt update currently, need to invalidate the pb cache when new logs are added,in a simialr way the logs are invalidated in use-addLogs?????
+  console.log("PERONSAL BEST RESP:", personalBest);
 
   return (
     <div className="flex min-h-screen flex-col gap-6 p-6 sm:max-w-2xl">
-      <Link to="/exercises" className="text-primary flex items-center gap-2">
-        <ArrowBigLeft />
-        <span className="hover:underline">back</span>
-      </Link>
+      <BackLink to="/exercises" />
       {isLoading && (
         <div className="flex items-center justify-center py-24">
           <LoadingSpinner />
@@ -33,6 +36,8 @@ export const ExerciseDetail = () => {
           <h1 className="text-primary font-heading text-5xl sm:text-6xl md:text-7xl">
             {exercise?.name}
           </h1>
+          {personalBest && <PersonalBest data={personalBest} />}
+
           <div className="flex items-end justify-end">
             <AddLogDialog exerciseId={id} />
           </div>
