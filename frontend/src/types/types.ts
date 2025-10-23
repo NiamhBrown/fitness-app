@@ -6,7 +6,7 @@ export type Exercise = {
   name: string;
   description?: string;
   muscleGroup?: string;
-  createdAt?: string; // or date?
+  createdAt?: string;
 };
 export type Workout = {
   id: string;
@@ -15,7 +15,15 @@ export type Workout = {
   createdAt?: string;
   userId?: string;
 };
-
+export type personalBest = {
+  id: string;
+  userId: string;
+  exerciseId: string;
+  reps: number;
+  weight: number;
+  date: string;
+  sourceLogId?: string;
+};
 export type ExerciseLog = {
   id: string;
   userId: string;

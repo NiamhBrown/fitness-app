@@ -1,5 +1,4 @@
 import { useAuth } from "@/hooks/use-auth";
-import { Menu } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import {
@@ -8,6 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { Menu } from "lucide-react";
 
 export const Navbar = () => {
   const { signOut } = useAuth();
@@ -17,14 +17,20 @@ export const Navbar = () => {
       <div className="bg-primary flex h-12 w-12 rounded-full"></div>
 
       {/* Desktop Links */}
-      <div className="hidden space-x-6 md:flex">
-        <Link to="/exercises" className="hover:text-primary">
+      <div className="text-primary hidden space-x-6 md:flex">
+        <Link
+          to="/exercises"
+          className="hover:decoration-secondary hover:underline"
+        >
           exercises
         </Link>
-        <Link to="/workouts" className="hover:text-primary">
+        <Link
+          to="/workouts"
+          className="hover:decoration-secondary hover:underline"
+        >
           workouts
         </Link>
-        <Button variant="outline" onClick={signOut}>
+        <Button variant="secondary" onClick={signOut}>
           logout
         </Button>
       </div>
@@ -33,13 +39,20 @@ export const Navbar = () => {
       <div className="md:hidden">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <Menu className="h-6 w-6" />
+            <Button
+              variant="ghost"
+              className="text-primary focus:ring-0 focus-visible:ring-0"
+            >
+              {/* get this to resize without using ! to force */}
+              <Menu className="!h-8 !w-8" />
               <span className="sr-only">Open menu</span>
             </Button>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent
+            align="end"
+            className="text-primary bg-primary-foreground"
+          >
             <DropdownMenuItem asChild>
               <Link to="/exercises">exercises</Link>
             </DropdownMenuItem>

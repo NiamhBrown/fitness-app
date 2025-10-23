@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -6,45 +6,50 @@ import {
   createColumnHelper,
 } from "@tanstack/react-table";
 import type { ExerciseHistoryTableProps, ExerciseLog } from "../../types/types";
+import { FormatDate } from "@/util/FormatDate";
+
+const columnHelper = createColumnHelper<{
+  date: string;
+  sets: ExerciseLog[];
+}>();
 
 const ExerciseHistoryTable: React.FC<ExerciseHistoryTableProps> = ({
   logs,
 }) => {
-  // Group sets by date for display
-  const groupedByDate = logs.reduce(
-    (acc, log) => {
-      acc[log.date] ??= { date: log.date, sets: [] };
-      acc[log.date].sets.push(log);
-      return acc;
-    },
-    {} as Record<string, { date: string; sets: ExerciseLog[] }>,
+  const groupedLogs = useMemo(() => {
+    const groupedByDate = logs.reduce(
+      (acc, log) => {
+        acc[log.date] ??= { date: log.date, sets: [] };
+        acc[log.date].sets.push(log);
+        return acc;
+      },
+      {} as Record<string, { date: string; sets: ExerciseLog[] }>,
+    );
+    return Object.values(groupedByDate);
+  }, [logs]);
+
+  const columns = useMemo(
+    () => [
+      columnHelper.accessor("date", {
+        header: "date",
+        size: 250,
+        cell: (info) => {
+          return FormatDate(info.getValue());
+        },
+      }),
+      columnHelper.accessor("sets", {
+        header: "sets",
+        size: 999,
+        cell: (info) => {
+          const sets = info.getValue();
+          return (
+            <span>{sets.map((s) => `${s.reps}×${s.weight}kg`).join(", ")}</span>
+          );
+        },
+      }),
+    ],
+    [],
   );
-
-  const groupedLogs = Object.values(groupedByDate);
-
-  const columnHelper = createColumnHelper<(typeof groupedLogs)[0]>();
-
-  const columns = [
-    columnHelper.accessor("date", {
-      header: "date",
-      size: 250,
-      cell: (info) => {
-        const rawDate = info.getValue();
-        const d = new Date(rawDate);
-        return d.toLocaleDateString();
-      },
-    }),
-    columnHelper.accessor("sets", {
-      header: "sets",
-      size: 999,
-      cell: (info) => {
-        const sets = info.getValue();
-        return (
-          <span>{sets.map((s) => `${s.reps}×${s.weight}kg`).join(", ")}</span>
-        );
-      },
-    }),
-  ];
 
   const table = useReactTable({
     data: groupedLogs,
@@ -53,7 +58,7 @@ const ExerciseHistoryTable: React.FC<ExerciseHistoryTableProps> = ({
   });
 
   return (
-    <div className="bg-secondary text-primary rounded p-3">
+    <div className="bg-secondary text-primary rounded p-4">
       <table>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
