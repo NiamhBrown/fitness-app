@@ -6,7 +6,6 @@ import { useParams } from "react-router-dom";
 
 export const WorkoutDetail = () => {
   const { id } = useParams<{ id: string }>();
-  console.log(id);
   const { data, isLoading, isError } = useWorkoutDetail(id);
 
   return (
