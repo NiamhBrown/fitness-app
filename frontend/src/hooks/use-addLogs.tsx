@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { ExerciseLog } from "../types/types";
 import { supabase } from "../supabaseClient";
 import axios from "axios";
+import { API_BASE_URL } from "@/assets/constants";
 
 type AddLogInput = {
   exerciseId: string;
@@ -10,7 +11,6 @@ type AddLogInput = {
 
 export function useAddLog(opts?: { onSuccess?: () => void }) {
   const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: async (newLog: AddLogInput) => {
       const {
@@ -18,9 +18,8 @@ export function useAddLog(opts?: { onSuccess?: () => void }) {
       } = await supabase.auth.getSession();
 
       if (!session) throw new Error("No session found");
-
       const res = await axios.post(
-        `http://localhost:3000/exercises/${newLog.exerciseId}/history`,
+        `${API_BASE_URL}/exercises/${newLog.exerciseId}/history`,
 
         newLog.logs,
         {

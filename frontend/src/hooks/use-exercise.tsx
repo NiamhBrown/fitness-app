@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { supabase } from "../supabaseClient";
 import type { Exercise } from "../types/types";
+import { API_BASE_URL } from "@/assets/constants";
 
 export const useExercise = (id: string | undefined) => {
   return useQuery<Exercise>({
@@ -13,7 +14,7 @@ export const useExercise = (id: string | undefined) => {
       if (!session) {
         throw new Error("No session found");
       }
-      const res = await axios.get(`http://localhost:3000/exercises/${id}`, {
+      const res = await axios.get(`${API_BASE_URL}/exercises/${id}`, {
         headers: {
           Authorization: `Bearer ${session.access_token}`,
         },
