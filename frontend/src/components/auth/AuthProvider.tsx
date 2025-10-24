@@ -46,14 +46,13 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const signIn = async (
     email: string,
-    password: string
+    password: string,
   ): Promise<{ user: User | null; error: string | null }> => {
     setLoading(true);
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-    console.log("⭐️token⭐️:", data.session?.access_token);
 
     if (error) {
       setLoading(false);
@@ -67,7 +66,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     firstName: string,
     lastName: string,
     email: string,
-    password: string
+    password: string,
   ): Promise<{ user: User | null; error: string | null }> => {
     setLoading(true);
     const { data, error } = await supabase.auth.signUp({
