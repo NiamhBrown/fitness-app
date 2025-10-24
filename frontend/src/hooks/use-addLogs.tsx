@@ -35,6 +35,9 @@ export function useAddLog(opts?: { onSuccess?: () => void }) {
       queryClient.invalidateQueries({
         queryKey: ["exerciseLogs", variables.exerciseId],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["personalBest", variables.exerciseId],
+      });
       opts?.onSuccess?.();
     },
   });

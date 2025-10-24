@@ -21,7 +21,7 @@ import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { useAddLog } from "@/hooks/use-addLogs";
 import { CirclePlus, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   exerciseId: string;
@@ -39,6 +39,7 @@ const logFormSchema = z.object({
 });
 export const AddLogDialog = ({ exerciseId }: Props) => {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const addLogMutation = useAddLog({
     onSuccess: () => setOpen(false),
   });
@@ -48,12 +49,9 @@ export const AddLogDialog = ({ exerciseId }: Props) => {
     >, // this fixed the coerce errors
     defaultValues: {
       logs: [
-        // { reps: 0, weight: 0 },
-        // { reps: 0, weight: 0 },
-        // { reps: 0, weight: 0 },
-        { reps: undefined, weight: undefined },
-        { reps: undefined, weight: undefined },
-        { reps: undefined, weight: undefined },
+        { reps: 0, weight: 0 },
+        { reps: 0, weight: 0 },
+        { reps: 0, weight: 0 },
       ],
     },
   });
@@ -61,22 +59,26 @@ export const AddLogDialog = ({ exerciseId }: Props) => {
     control: form.control,
     name: "logs",
   });
-  const onSubmit = (data: z.infer<typeof logFormSchema>) => {
-    console.log("✅", data);
-    addLogMutation.mutate({
+  const onSubmit = async (data: z.infer<typeof logFormSchema>) => {
+    setLoading(true);
+    await addLogMutation.mutateAsync({
       exerciseId,
       logs: data.logs,
     });
+    setLoading(false);
   };
+
+  useEffect(() => {
+    if (open) {
+      form.reset(); // fresh start every time the dialog opens, doing it on close wasnt working properly due to dialog closing animations
+    }
+  }, [form, open]);
 
   return (
     <Dialog
       open={open}
       onOpenChange={(isOpen) => {
         setOpen(isOpen);
-        if (!isOpen) {
-          form.reset();
-        }
       }}
     >
       <DialogTrigger asChild>
@@ -93,6 +95,12 @@ export const AddLogDialog = ({ exerciseId }: Props) => {
             id="log-form"
             className="space-y-4"
           >
+            <div className="grid grid-cols-[2fr_4fr_4fr_1fr] items-center gap-2">
+              <p></p>
+              <p>reps</p>
+              <p>kg</p>
+              <p></p>
+            </div>
             {fields.map((field, index) => (
               <div
                 key={field.id}
@@ -162,8 +170,8 @@ export const AddLogDialog = ({ exerciseId }: Props) => {
           </form>
         </Form>
         <DialogFooter>
-          <Button type="submit" form="log-form">
-            save
+          <Button type="submit" form="log-form" disabled={loading}>
+            {loading ? "saving..." : "save"}
           </Button>
         </DialogFooter>
       </DialogContent>

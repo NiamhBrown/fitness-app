@@ -21,21 +21,21 @@ model User {
   createdAt     DateTime      @default(now())     
   updatedAt     DateTime      @updatedAt          
 
-  // Relations
-  exerciseLogs  ExerciseLog[]                     // One user -> many logs
+  exerciseLogs  ExerciseLog[]                     
   personalBest  PersonalBest[]
   }
 
 model Exercise {
-  id            String        @id @default(uuid()) // Primary key
+  id            String        @id @default(uuid()) 
   name          String          @unique                   
   description   String?                            
   muscleGroup   String?                            
   createdAt     DateTime      @default(now())
 
-  // Relations
-  exerciseLogs  ExerciseLog[]                      // One exercise -> many logs
+  exerciseLogs  ExerciseLog[]
   personalBest  PersonalBest[]
+  WorkoutExercise WorkoutExercise[]
+  WorkoutLogExercise WorkoutLogExercise[]
 }
 
 model ExerciseLog {
@@ -49,9 +49,7 @@ model ExerciseLog {
 
   user       User      @relation(fields: [userId], references: [id])
   exercise   Exercise  @relation(fields: [exerciseId], references: [id])
-
-  //relations 
-personalBest PersonalBest[] 
+  personalBest PersonalBest[] 
 }
 
 model PersonalBest {
@@ -68,4 +66,44 @@ model PersonalBest {
   sourceLog  ExerciseLog? @relation(fields: [sourceLogId], references: [id])
 
   @@unique([userId, exerciseId]) // Ensures one PB per user + exercise
+}
+
+model Workout {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  userId      String?
+  createdAt   DateTime @default(now())
+  exercises   WorkoutExercise[]
+  logs        WorkoutLog[]
+}
+
+model WorkoutExercise {
+  id          String   @id @default(uuid())
+  workoutId   String
+  exerciseId  String
+  order       Int?
+  recommendedSets    Int?
+  recommendedReps    String?
+  restPeriodSeconds  Int? 
+  Workout     Workout  @relation(fields: [workoutId], references: [id])
+  Exercise    Exercise @relation(fields: [exerciseId], references: [id])
+}
+
+model WorkoutLog {
+  id         String   @id @default(uuid())
+  workoutId  String
+  userId     String
+  date       DateTime @default(now())
+  exercises  WorkoutLogExercise[]
+  Workout    Workout  @relation(fields: [workoutId], references: [id])
+}
+
+model WorkoutLogExercise {
+  id             String   @id @default(uuid())
+  workoutLogId   String
+  exerciseId     String
+  sets           Json
+  WorkoutLog     WorkoutLog @relation(fields: [workoutLogId], references: [id])
+  Exercise       Exercise   @relation(fields: [exerciseId], references: [id])
 }

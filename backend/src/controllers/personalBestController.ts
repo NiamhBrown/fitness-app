@@ -1,19 +1,18 @@
 import { Request, Response } from "express";
 import { personalBestService } from "../services/personalBestService";
 
-// NOT USING PBS IN APP YET
 export const personalBestController = {
   getExercisePb: async (req: Request, res: Response) => {
     console.log("🔥 Received GET request to /exercises/:id/personalbest");
     const { id } = req.params;
+    const userId = req.user.id;
     if (!id) {
       return res
         .status(400)
         .json({ status: 400, message: "Valid exerciseId is required" });
     }
     try {
-      //hardcoded user id (1)
-      const personalBest = await personalBestService.getExercisePb(id, "1");
+      const personalBest = await personalBestService.getExercisePb(id, userId);
       res.json({
         status: 200,
         message: "personalBest fetched successfully",
@@ -28,10 +27,10 @@ export const personalBestController = {
   },
   getAllPbs: async (req: Request, res: Response) => {
     console.log("🔥 Received GET request to /exercises/personalbests");
+    const userId = req.user.id;
 
     try {
-      //hardcoded user id (1)
-      const personalBests = await personalBestService.getAllPbs("1");
+      const personalBests = await personalBestService.getAllPbs(userId);
       res.json({
         status: 200,
         message: "personalBest fetched successfully",

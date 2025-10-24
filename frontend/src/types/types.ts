@@ -6,9 +6,45 @@ export type Exercise = {
   name: string;
   description?: string;
   muscleGroup?: string;
-  createdAt?: string; // or date?
+  createdAt?: string;
+};
+export type Workout = {
+  id: string;
+  name: string;
+  description?: string;
+  createdAt?: string;
+  userId?: string;
 };
 
+export type WorkoutExercise = {
+  id: string;
+  order: number;
+  name: string;
+  description: string;
+  muscleGroup: string;
+  recommendedSets: number;
+  recommendedReps: string;
+  restPeriodSeconds: number | null;
+};
+
+export type WorkoutDetail = {
+  id: string;
+  name: string;
+  description: string;
+  userId: string;
+  createdAt: string;
+  exercises: WorkoutExercise[];
+};
+
+export type personalBest = {
+  id: string;
+  userId: string;
+  exerciseId: string;
+  reps: number;
+  weight: number;
+  date: string;
+  sourceLogId?: string;
+};
 export type ExerciseLog = {
   id: string;
   userId: string;
@@ -43,13 +79,13 @@ export type AuthContextType = {
   loading: boolean;
   signIn: (
     email: string,
-    password: string
+    password: string,
   ) => Promise<{ user: User | null; error: string | null }>;
   signUp: (
     email: string,
     password: string,
     firstName: string,
-    lastName: string
+    lastName: string,
   ) => Promise<{ user: User | null; error: string | null }>;
   signOut: () => Promise<{ error: string | null }>;
   isAuthenticated: boolean;
