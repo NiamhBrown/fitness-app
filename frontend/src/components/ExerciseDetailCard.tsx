@@ -4,7 +4,6 @@ interface Props {
   details: WorkoutExercise;
 }
 export const ExerciseDetailCard = ({ details }: Props) => {
-  console.log("REST VAL:", details.restPeriodSeconds);
   return (
     <div className="bg-secondary rounded p-4">
       <p className="mb-2">{details.name}</p>
