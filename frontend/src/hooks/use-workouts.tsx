@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "@/assets/constants";
 import { supabase } from "@/supabaseClient";
 import type { Exercise } from "@/types/types";
 import { useQuery } from "@tanstack/react-query";
@@ -14,7 +15,7 @@ export const useWorkouts = () => {
       if (!session) {
         throw new Error("No session found");
       }
-      const res = await axios.get(`http://localhost:3000/workouts`, {
+      const res = await axios.get(`${API_BASE_URL}/workouts`, {
         headers: {
           Authorization: `Bearer ${session.access_token}`,
         },
