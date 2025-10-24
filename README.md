@@ -9,7 +9,7 @@ A minimal fitness tracking app built as an MVP to log exercises and track progre
 ### **Frontend**
 
 - ⚛️ React
-- 🧩 TypeScripthttps://www.typescriptlang.org/
+- 🧩 TypeScript
 - 🎨 Tailwind CSS
 - 🧱 shadcn/ui
 
