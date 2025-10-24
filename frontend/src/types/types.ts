@@ -15,6 +15,27 @@ export type Workout = {
   createdAt?: string;
   userId?: string;
 };
+
+export type WorkoutExercise = {
+  id: string;
+  order: number;
+  name: string;
+  description: string;
+  muscleGroup: string;
+  recommendedSets: number;
+  recommendedReps: string;
+  restPeriodSeconds: number | null;
+};
+
+export type WorkoutDetail = {
+  id: string;
+  name: string;
+  description: string;
+  userId: string;
+  createdAt: string;
+  exercises: WorkoutExercise[];
+};
+
 export type personalBest = {
   id: string;
   userId: string;
