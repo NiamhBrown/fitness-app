@@ -24,4 +24,25 @@ export const workoutController = {
         .json({ status: 500, message: "Failed to fetch workouts" });
     }
   },
+  // do i even need this if its already been cached from above if i get it to inc. exercises too in the req(or better to only inc. exercises when i need it on the detail page)
+  getWorkoutDetails: async (
+    req: Request,
+    res: Response<ApiResponse<Workout>>,
+  ) => {
+    console.log("🔥 Received GET request to /workouts/:id");
+    const { id } = req.params;
+    try {
+      const workoutDetails = await workoutsService.getWorkoutDetails(id);
+      res.json({
+        status: 200,
+        message: "Workouts fetched successfully",
+        data: workoutDetails,
+      });
+    } catch (err) {
+      console.error("❌ Error fetching workout details:", err);
+      res
+        .status(500)
+        .json({ status: 500, message: "Failed to fetch workout details" });
+    }
+  },
 };

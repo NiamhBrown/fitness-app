@@ -14,9 +14,6 @@ export const ExerciseDetail = () => {
   const { data: exerciseLogs, isLoading, isError } = useExerciseLogs(id);
   const { data: personalBest } = usePersonalBest(id);
 
-  // this works but doesnt update currently, need to invalidate the pb cache when new logs are added,in a simialr way the logs are invalidated in use-addLogs?????
-  console.log("PERONSAL BEST RESP:", personalBest);
-
   return (
     <div className="flex min-h-screen flex-col gap-6 p-6 sm:max-w-2xl">
       <BackLink to="/exercises" />
@@ -33,7 +30,7 @@ export const ExerciseDetail = () => {
 
       {id && exercise && exerciseLogs && (
         <>
-          <h1 className="text-primary font-heading text-5xl sm:text-6xl md:text-7xl">
+          <h1 className="text-primary font-heading text-4xl sm:text-6xl md:text-7xl">
             {exercise?.name}
           </h1>
           {personalBest && <PersonalBest data={personalBest} />}

@@ -21,20 +21,18 @@ model User {
   createdAt     DateTime      @default(now())     
   updatedAt     DateTime      @updatedAt          
 
-  // Relations
-  exerciseLogs  ExerciseLog[]                     // One user -> many logs
+  exerciseLogs  ExerciseLog[]                     
   personalBest  PersonalBest[]
   }
 
 model Exercise {
-  id            String        @id @default(uuid()) // Primary key
+  id            String        @id @default(uuid()) 
   name          String          @unique                   
   description   String?                            
   muscleGroup   String?                            
   createdAt     DateTime      @default(now())
 
-  // Relations
-  exerciseLogs  ExerciseLog[]                      // One exercise -> many logs
+  exerciseLogs  ExerciseLog[]
   personalBest  PersonalBest[]
   WorkoutExercise WorkoutExercise[]
   WorkoutLogExercise WorkoutLogExercise[]
@@ -51,9 +49,7 @@ model ExerciseLog {
 
   user       User      @relation(fields: [userId], references: [id])
   exercise   Exercise  @relation(fields: [exerciseId], references: [id])
-
-  //relations 
-personalBest PersonalBest[] 
+  personalBest PersonalBest[] 
 }
 
 model PersonalBest {
@@ -72,7 +68,6 @@ model PersonalBest {
   @@unique([userId, exerciseId]) // Ensures one PB per user + exercise
 }
 
-// tables for MVP 2 
 model Workout {
   id          String   @id @default(uuid())
   name        String
@@ -88,6 +83,9 @@ model WorkoutExercise {
   workoutId   String
   exerciseId  String
   order       Int?
+  recommendedSets    Int?
+  recommendedReps    String?
+  restPeriodSeconds  Int? 
   Workout     Workout  @relation(fields: [workoutId], references: [id])
   Exercise    Exercise @relation(fields: [exerciseId], references: [id])
 }
