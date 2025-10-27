@@ -40,7 +40,7 @@ export const Library = ({ type }: Props) => {
 
       {isError && (
         <div className="flex items-center justify-center py-24">
-          <h2>`sorry, unable to load ${type}s :(`</h2>
+          <h2>sorry, unable to load {type}s :(</h2>
         </div>
       )}
 
@@ -57,7 +57,7 @@ export const Library = ({ type }: Props) => {
           ))}
         {isError ||
           (exercises?.length === 0 && (
-            <h2>`sorry, unable to load ${type}s :(`</h2>
+            <h2>sorry, unable to load {type}s :(</h2>
           ))}
       </div>
     </div>
