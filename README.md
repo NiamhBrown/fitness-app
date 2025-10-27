@@ -8,17 +8,17 @@ A minimal fitness tracking app built as an MVP to log exercises and track progre
 
 ### **Frontend**
 
-- ⚛️ React
-- 🧩 TypeScript
-- 🎨 Tailwind CSS
-- 🧱 shadcn/ui
+- React
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
 
 ### **Backend**
 
-- 🟩 Node.js
-- 🚂 Express
-- 🔍 Prisma ORM
-- 🗄️ Supabase — used for both database and authentication
+- Node.js
+- Express
+- Prisma ORM
+- Supabase — used for both database and authentication
 
 ## Project Motivation ✨
 
