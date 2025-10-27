@@ -31,7 +31,6 @@ I want the app to look beautiful and to create a seamless user experience. By ac
 ### Features I’m working towards next:
 
 - 🏋️ **Workout Library:** Log exercises under a complete structured workout
-- 🎯 **Personal Best Notifications:** Alerts when new PRs are reached
 - ⏱️ **Timer:** Track rest periods and total workout duration
 - 📊 **Training Insights:** View frequency and consistency of sessions
 
@@ -39,6 +38,7 @@ I want the app to look beautiful and to create a seamless user experience. By ac
 
 - 🔐 **Authentication:** Create an account and log in securely via Supabase.
 - 💪🏼 **Exercise Logging:** Add exercise logs, recording reps and weight for each set.
+- 🎯 **Personal Best Banner:** Banner updates when new PRs are reached for each exercise
 
 ## Demo
 
