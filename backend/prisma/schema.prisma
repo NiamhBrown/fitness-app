@@ -103,7 +103,9 @@ model WorkoutLogExercise {
   id             String   @id @default(uuid())
   workoutLogId   String
   exerciseId     String
-  sets           Json
+  setNumber          Int
+  reps           Int 
+  weight Int  
   WorkoutLog     WorkoutLog @relation(fields: [workoutLogId], references: [id])
   Exercise       Exercise   @relation(fields: [exerciseId], references: [id])
 }

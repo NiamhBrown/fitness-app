@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { ApiResponse } from "../types/types";
 import { workoutsService } from "../services/workoutsService";
 import { Workout } from "@prisma/client";
+import { RecordWithTtl } from "dns";
 
 export const workoutController = {
   getAllWorkouts: async (
@@ -43,6 +44,24 @@ export const workoutController = {
       res
         .status(500)
         .json({ status: 500, message: "Failed to fetch workout details" });
+    }
+  },
+  addWorkoutLog: async (req: Request, res: Response) => {
+    console.log("🔥 Received POST request to /workouts/:id");
+    const { id } = req.params;
+    const userId = req.user.id;
+    const data = req.body;
+
+    try {
+      const workoutLog = await workoutsService.addWorkoutLog(id, userId, data);
+      res.json({
+        status: 200,
+        message: "Workout logged successfully",
+        data: workoutLog,
+      });
+    } catch (err) {
+      console.error("❌ Error adding exercise log:", err);
+      res.status(500).json({ status: 500, message: "Failed to log workout" });
     }
   },
 };

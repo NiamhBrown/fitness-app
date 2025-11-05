@@ -5,5 +5,6 @@ const router = Router();
 
 router.get("/", workoutController.getAllWorkouts);
 router.get("/:id", workoutController.getWorkoutDetails);
+router.post("/:id/", workoutController.addWorkoutLog);
 
 export default router;

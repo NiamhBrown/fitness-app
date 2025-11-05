@@ -5,7 +5,6 @@ export type ApiResponse<T> = {
   data?: T;
 };
 
-// will i need to inc userId here once auth is implements or get from BE i think
 export type NewExerciseLogInput = {
   reps: number;
   weight: number;
@@ -16,4 +15,15 @@ export type UpdateExerciseLogInput = {
   id: string; // id of specific log to update
   reps?: number;
   weight?: number;
+};
+
+export type WorkoutLogInput = {
+  // workoutId: string; getting it from params
+  exercises: {
+    exerciseId: string;
+    sets: {
+      reps: number;
+      weight: number;
+    }[];
+  }[];
 };

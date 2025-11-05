@@ -53,7 +53,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       email,
       password,
     });
-
+    console.log("⭐️token⭐️:", data.session?.access_token);
     if (error) {
       setLoading(false);
       return { user: null, error: error.message };
