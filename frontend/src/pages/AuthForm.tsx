@@ -53,7 +53,7 @@ export const AuthForm = ({ mode }: AuthFormProps) => {
         console.error("Signup error:", error);
       } else {
         console.log("Signup success:", user);
-        navigate("/exercises");
+        navigate("/workouts");
       }
     } else {
       const loginData = data as LoginFormValues;
@@ -64,7 +64,7 @@ export const AuthForm = ({ mode }: AuthFormProps) => {
         return;
       } else {
         console.log("Login success, user:", user);
-        navigate("/exercises");
+        navigate("/workouts");
       }
     }
   };

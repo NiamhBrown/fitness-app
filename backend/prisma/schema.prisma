@@ -34,8 +34,8 @@ model Exercise {
 
   exerciseLogs  ExerciseLog[]
   personalBest  PersonalBest[]
-  WorkoutExercise WorkoutExercise[]
-  WorkoutLogExercise WorkoutLogExercise[]
+  workoutExercise WorkoutExercise[]
+  workoutLogExercise WorkoutLogExercise[]
 }
 
 model ExerciseLog {
@@ -86,8 +86,8 @@ model WorkoutExercise {
   recommendedSets    Int?
   recommendedReps    String?
   restPeriodSeconds  Int? 
-  Workout     Workout  @relation(fields: [workoutId], references: [id])
-  Exercise    Exercise @relation(fields: [exerciseId], references: [id])
+  workout     Workout  @relation(fields: [workoutId], references: [id])
+  exercise    Exercise @relation(fields: [exerciseId], references: [id])
 }
 
 model WorkoutLog {
@@ -95,8 +95,9 @@ model WorkoutLog {
   workoutId  String
   userId     String
   date       DateTime @default(now())
+  duration Int @default(0)
   exercises  WorkoutLogExercise[]
-  Workout    Workout  @relation(fields: [workoutId], references: [id])
+  workout    Workout  @relation(fields: [workoutId], references: [id])
 }
 
 model WorkoutLogExercise {
@@ -106,6 +107,6 @@ model WorkoutLogExercise {
   setNumber          Int
   reps           Int 
   weight Int  
-  WorkoutLog     WorkoutLog @relation(fields: [workoutLogId], references: [id])
-  Exercise       Exercise   @relation(fields: [exerciseId], references: [id])
+  workoutLog     WorkoutLog @relation(fields: [workoutLogId], references: [id])
+  exercise       Exercise   @relation(fields: [exerciseId], references: [id])
 }

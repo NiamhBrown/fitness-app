@@ -1,4 +1,34 @@
-// = undefined
+import { Prisma } from "@prisma/client";
+
+export type WorkoutHistoryLog = Prisma.WorkoutLogGetPayload<{
+  select: {
+    id: true;
+    date: true;
+    duration: true;
+    workout: {
+      select: {
+        name: true;
+      };
+    };
+  };
+}>;
+
+export type WorkoutLogWithExercises = {
+  id: string;
+  date: Date;
+  duration: number;
+  name: string;
+  exercises: {
+    exerciseId: string;
+    name: string;
+    sets: {
+      setNumber: number;
+      reps: number;
+      weight: number;
+    }[];
+  }[];
+};
+
 export type ApiResponse<T> = {
   status: number;
   message: string;
@@ -19,6 +49,7 @@ export type UpdateExerciseLogInput = {
 
 export type WorkoutLogInput = {
   // workoutId: string; getting it from params
+  duration;
   exercises: {
     exerciseId: string;
     sets: {

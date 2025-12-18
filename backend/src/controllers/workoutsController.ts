@@ -1,8 +1,11 @@
 import { Request, Response } from "express";
-import { ApiResponse } from "../types/types";
+import {
+  ApiResponse,
+  WorkoutHistoryLog,
+  WorkoutLogWithExercises,
+} from "../types/types";
 import { workoutsService } from "../services/workoutsService";
 import { Workout } from "@prisma/client";
-import { RecordWithTtl } from "dns";
 
 export const workoutController = {
   getAllWorkouts: async (
@@ -25,7 +28,6 @@ export const workoutController = {
         .json({ status: 500, message: "Failed to fetch workouts" });
     }
   },
-  // do i even need this if its already been cached from above if i get it to inc. exercises too in the req(or better to only inc. exercises when i need it on the detail page)
   getWorkoutDetails: async (
     req: Request,
     res: Response<ApiResponse<Workout>>,
@@ -62,6 +64,45 @@ export const workoutController = {
     } catch (err) {
       console.error("❌ Error adding exercise log:", err);
       res.status(500).json({ status: 500, message: "Failed to log workout" });
+    }
+  },
+  getWorkoutHistory: async (
+    req: Request,
+    res: Response<ApiResponse<WorkoutHistoryLog[]>>,
+  ) => {
+    console.log("🔥 Received GET request to /history");
+
+    try {
+      const history = await workoutsService.getWorkoutHistory();
+      res.json({
+        status: 200,
+        message: "Workout history fetched successfully",
+        data: history,
+      });
+    } catch (err) {
+      console.error("❌ Error fetching workouts history:", err);
+      res.status(500).json({ status: 500, message: "Failed to fetch history" });
+    }
+  },
+  getWorkoutLogById: async (
+    req: Request,
+    res: Response<ApiResponse<WorkoutLogWithExercises>>,
+  ) => {
+    console.log("🔥 Received GET request to /history");
+    const { id } = req.params;
+
+    try {
+      const history = await workoutsService.getWorkoutLogById(id);
+      res.json({
+        status: 200,
+        message: "Workout log details fetched successfully",
+        data: history as WorkoutLogWithExercises,
+      }); // casting not good here
+    } catch (err) {
+      console.error("❌ Error logged workout:", err);
+      res
+        .status(500)
+        .json({ status: 500, message: "Failed to fetch workout history" });
     }
   },
 };

@@ -30,7 +30,7 @@ export const WorkoutDetail = () => {
           {data?.exercises.map((ex) => (
             <ExerciseDetailCard key={ex.id} details={ex} />
           ))}
-          <div className="text-primary bg-hivis hover:bg-hivis px-30 flex justify-center rounded-xl py-5">
+          <div className="text-primary bg-hivis px-30 hover:border-hivis flex justify-center rounded-xl border py-5 hover:bg-transparent">
             <Link to={`/workout/${id}/logging`}>start workout</Link>
           </div>
         </>

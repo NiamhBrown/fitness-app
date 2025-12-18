@@ -6,7 +6,9 @@ const main = async () => {
   console.log("🧹 Cleaning existing data...");
   await prisma.personalBest.deleteMany();
   await prisma.exerciseLog.deleteMany();
+  await prisma.workoutLogExercise.deleteMany();
   await prisma.workoutExercise.deleteMany();
+  await prisma.workoutLog.deleteMany();
   await prisma.workout.deleteMany();
   await prisma.exercise.deleteMany();
 

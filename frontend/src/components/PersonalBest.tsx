@@ -1,12 +1,12 @@
 import type { personalBest } from "@/types/types";
-import { FormatDate } from "@/util/FormatDate";
+import { FormatDateNumeric } from "@/util/utils";
 import { PartyPopper } from "lucide-react";
 
 interface Props {
   data: personalBest;
 }
 export const PersonalBest = ({ data }: Props) => {
-  const date = FormatDate(data.date);
+  const date = FormatDateNumeric(data.date);
   return (
     <div className="bg-accent text-primary-foreground flex flex-row space-x-4 rounded p-2">
       <div>
