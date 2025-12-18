@@ -18,6 +18,7 @@ export type Workout = {
 
 export type WorkoutExercise = {
   id: string;
+  exerciseId: string;
   order: number;
   name: string;
   description: string;
@@ -34,6 +35,40 @@ export type WorkoutDetail = {
   userId: string;
   createdAt: string;
   exercises: WorkoutExercise[];
+};
+
+export type WorkoutLogInput = {
+  exercises: {
+    exerciseId: string;
+    sets: {
+      reps: number;
+      weight: number;
+    }[];
+  }[];
+};
+
+export type WorkoutHistoryLog = {
+  workout: { name: string };
+  duration: number;
+  date: string;
+  workoutId: string;
+  id: string;
+};
+
+export type WorkoutLog = {
+  name: string;
+  duration: number;
+  date: string;
+  workoutId: string;
+  id: string;
+  exercises: {
+    name: string;
+    exerciseId: string;
+    sets: {
+      reps: number;
+      weight: number;
+    }[];
+  }[];
 };
 
 export type personalBest = {
@@ -53,11 +88,6 @@ export type ExerciseLog = {
   setNumber: number;
   reps: number;
   weight: number;
-};
-export type NewExerciseLogInput = {
-  reps: number;
-  weight: number;
-  date?: string; // optional, defaults to today
 };
 
 export type UpdateExerciseLogInput = {

@@ -6,7 +6,7 @@ import {
   createColumnHelper,
 } from "@tanstack/react-table";
 import type { ExerciseHistoryTableProps, ExerciseLog } from "../../types/types";
-import { FormatDate } from "@/util/FormatDate";
+import { FormatDateNumeric } from "@/util/utils";
 
 const columnHelper = createColumnHelper<{
   date: string;
@@ -34,7 +34,7 @@ const ExerciseHistoryTable: React.FC<ExerciseHistoryTableProps> = ({
         header: "date",
         size: 250,
         cell: (info) => {
-          return FormatDate(info.getValue());
+          return FormatDateNumeric(info.getValue());
         },
       }),
       columnHelper.accessor("sets", {

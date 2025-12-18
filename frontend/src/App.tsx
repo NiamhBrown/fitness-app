@@ -12,6 +12,9 @@ import { LandingPage } from "./pages/LandingPage";
 import { SignupPage } from "./pages/SignupPage";
 import ScrollToTop from "./components/navigation/ScrollToTop";
 import { WorkoutDetail } from "./pages/WorkoutDetail";
+import { LoggingWorkout } from "./pages/LoggingWorkout";
+import { WorkoutHistory } from "./pages/WorkoutHistory";
+import { LoggedWorkoutDetail } from "./pages/LoggedWorkoutDetail";
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient();
@@ -32,7 +35,10 @@ const App = () => (
               <Route path="/exercises" element={<Library type="exercise" />} />
               <Route path="/exercise/:id" element={<ExerciseDetail />} />
               <Route path="/workouts" element={<Library type="workout" />} />
+              <Route path="/history" element={<WorkoutHistory />} />
+              <Route path="/history/:id" element={<LoggedWorkoutDetail />} />
               <Route path="/workout/:id" element={<WorkoutDetail />} />
+              <Route path="/workout/:id/logging" element={<LoggingWorkout />} />
             </Route>
           </Route>
         </Routes>

@@ -43,21 +43,17 @@ export const Library = ({ type }: Props) => {
           <h2>sorry, unable to load {type}s :(</h2>
         </div>
       )}
-
       {data?.length === 0 && (
         <div className="flex items-center justify-center py-24">
-          <h2>no exercises found</h2>
+          <h2>no {type}s found</h2>
         </div>
       )}
 
       <div className="my-12">
-        {data?.length &&
+        {data &&
+          data.length > 0 &&
           data.map((item) => (
             <ListItem key={item.id} item={item} type={type} />
-          ))}
-        {isError ||
-          (exercises?.length === 0 && (
-            <h2>sorry, unable to load {type}s :(</h2>
           ))}
       </div>
     </div>

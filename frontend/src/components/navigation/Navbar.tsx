@@ -28,7 +28,13 @@ export const Navbar = () => {
           to="/workouts"
           className="hover:decoration-secondary hover:underline"
         >
-          workouts
+          workout library
+        </Link>
+        <Link
+          to="/history"
+          className="hover:decoration-secondary hover:underline"
+        >
+          workout history
         </Link>
         <Button variant="secondary" onClick={signOut}>
           logout
@@ -57,7 +63,10 @@ export const Navbar = () => {
               <Link to="/exercises">exercises</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link to="/workouts">workouts</Link>
+              <Link to="/workouts">workout library</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link to="/history">workout history</Link>
             </DropdownMenuItem>
             <DropdownMenuItem onSelect={signOut}>logout</DropdownMenuItem>
           </DropdownMenuContent>

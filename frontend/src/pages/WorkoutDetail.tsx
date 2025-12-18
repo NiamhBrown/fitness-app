@@ -2,7 +2,7 @@ import { ExerciseDetailCard } from "@/components/ExerciseDetailCard";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { BackLink } from "@/components/navigation/BackLink";
 import { useWorkoutDetail } from "@/hooks/useWorkoutDetails";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export const WorkoutDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -30,8 +30,8 @@ export const WorkoutDetail = () => {
           {data?.exercises.map((ex) => (
             <ExerciseDetailCard key={ex.id} details={ex} />
           ))}
-          <div className="border-accent rounded border border-solid p-4">
-            <p>🤩 logging workouts coming soon !! 🤩</p>
+          <div className="text-primary bg-hivis px-30 hover:border-hivis flex justify-center rounded-xl border py-5 hover:bg-transparent">
+            <Link to={`/workout/${id}/logging`}>start workout</Link>
           </div>
         </>
       )}
