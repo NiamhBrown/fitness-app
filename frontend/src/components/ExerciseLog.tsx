@@ -18,8 +18,9 @@ export const ExerciseLog = ({ details, index }: Props) => {
 
   return (
     <div className="text-primary min-h-2/4 border-secondary mb-6 rounded border">
-      <div className="mb-3 p-2">
+      <div className="p-2">
         <h3 className="text-lg font-semibold">{details.name}</h3>
+        <p>reps: {details.recommendedReps}</p>
       </div>
       <div className="from-secondary to-hivis bg-gradient-to-b p-2">
         <div className="grid grid-cols-[2fr_4fr_4fr_1fr] items-center gap-2">

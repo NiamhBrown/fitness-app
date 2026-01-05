@@ -42,7 +42,7 @@ export const AuthForm = ({ mode }: AuthFormProps) => {
   const handleAuth = async (data: SignupFormValues | LoginFormValues) => {
     if (mode === "signup") {
       const signupData = data as SignupFormValues;
-      const { user, error } = await signUp(
+      const { error } = await signUp(
         signupData.firstName,
         signupData.lastName,
         signupData.email,
@@ -52,18 +52,16 @@ export const AuthForm = ({ mode }: AuthFormProps) => {
         form.setError("password", { type: "server", message: error });
         console.error("Signup error:", error);
       } else {
-        console.log("Signup success:", user);
         navigate("/workouts");
       }
     } else {
       const loginData = data as LoginFormValues;
-      const { user, error } = await signIn(loginData.email, loginData.password);
+      const { error } = await signIn(loginData.email, loginData.password);
       if (error) {
         form.setError("password", { type: "server", message: error });
         console.error("Login error:", error);
         return;
       } else {
-        console.log("Login success, user:", user);
         navigate("/workouts");
       }
     }

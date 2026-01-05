@@ -71,9 +71,10 @@ export const workoutController = {
     res: Response<ApiResponse<WorkoutHistoryLog[]>>,
   ) => {
     console.log("🔥 Received GET request to /history");
+    const userId = req.user.id;
 
     try {
-      const history = await workoutsService.getWorkoutHistory();
+      const history = await workoutsService.getWorkoutHistory(userId);
       res.json({
         status: 200,
         message: "Workout history fetched successfully",

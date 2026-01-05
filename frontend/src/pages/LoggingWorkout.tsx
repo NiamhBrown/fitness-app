@@ -43,15 +43,14 @@ export const LoggingWorkout = () => {
   });
 
   // When data loads, reset form with populated default values
-  // doesnt like undefined but til workaround for UI is found (shows non custom error msg)
   useEffect(() => {
     if (data) {
       form.reset({
         exercises: data.exercises.map((ex: WorkoutExercise) => ({
           exerciseId: ex.exerciseId,
           sets: Array.from({ length: ex.recommendedSets || 3 }).map(() => ({
-            reps: undefined,
-            weight: undefined,
+            reps: 0,
+            weight: 0,
           })),
         })),
       });

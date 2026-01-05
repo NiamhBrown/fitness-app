@@ -19,12 +19,6 @@ export const Navbar = () => {
       {/* Desktop Links */}
       <div className="text-primary hidden space-x-6 md:flex">
         <Link
-          to="/exercises"
-          className="hover:decoration-secondary hover:underline"
-        >
-          exercises
-        </Link>
-        <Link
           to="/workouts"
           className="hover:decoration-secondary hover:underline"
         >
@@ -35,6 +29,12 @@ export const Navbar = () => {
           className="hover:decoration-secondary hover:underline"
         >
           workout history
+        </Link>
+        <Link
+          to="/exercises"
+          className="hover:decoration-secondary hover:underline"
+        >
+          exercises
         </Link>
         <Button variant="secondary" onClick={signOut}>
           logout
@@ -60,13 +60,13 @@ export const Navbar = () => {
             className="text-primary bg-primary-foreground"
           >
             <DropdownMenuItem asChild>
-              <Link to="/exercises">exercises</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
               <Link to="/workouts">workout library</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link to="/history">workout history</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link to="/exercises">exercises</Link>
             </DropdownMenuItem>
             <DropdownMenuItem onSelect={signOut}>logout</DropdownMenuItem>
           </DropdownMenuContent>
