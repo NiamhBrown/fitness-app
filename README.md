@@ -27,18 +27,19 @@ My end goal for this app is to help users build consistency in their training by
 This is also an app I want for myself, so I’ve really enjoyed developing it as I understand the pain points of trying to track workouts effectively and get to design features I’d personally find useful.
 
 I want the app to look beautiful and to create a seamless user experience. By achieving this I hope to create an app that makes users excited to work out and feel inspired to stay consistent and achieve their fitness goals.
-
-### Features I’m working towards next:
-
-- 🏋️ **Workout Library:** Log exercises under a complete structured workout
-- ⏱️ **Timer:** Track rest periods and total workout duration
-- 📊 **Training Insights:** View frequency and consistency of sessions
+ 
 
 ## Current Features
 
 - 🔐 **Authentication:** Create an account and log in securely via Supabase.
 - 💪🏼 **Exercise Logging:** Add exercise logs, recording reps and weight for each set.
-- 🎯 **Personal Best Banner:** Banner updates when new PRs are reached for each exercise
+- 🏋️ **Workout Library:** Log exercises under a complete structured workout
+- ⏱️ **Timer:** Track workout duration
+- 🎯 **Personal Best Banner:** Banner updates when new PBs are reached for each exercise log
+
+### What I’m working towards next:
+
+- Integrating with an API to have more exercises/workouts data
 
 ## Demo
 
