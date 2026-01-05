@@ -43,7 +43,13 @@ I want the app to look beautiful and to create a seamless user experience. By ac
 
 ## Demo
 
-https://github.com/user-attachments/assets/daaa2f47-8202-4123-9b9b-1460acd6da80
+Logging a workout:
+
+https://github.com/user-attachments/assets/16c88de9-d312-42df-9e13-61d1180ae25a
+
+Logging an exercise:
+
+https://github.com/user-attachments/assets/fb06b6b7-e495-4341-b4bf-5396212d914c
 
 ## Setup Instructions
 
