@@ -35,8 +35,9 @@ export const workoutsService = {
     return workouts;
   },
 
-  getWorkoutHistory: async () => {
+  getWorkoutHistory: async (userId) => {
     return prisma.workoutLog.findMany({
+      where: { userId: userId },
       orderBy: { date: "desc" },
       select: {
         id: true,
